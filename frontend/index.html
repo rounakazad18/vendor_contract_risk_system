@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q2 Contract Clause Risk Review System — Group 2 (12326116 &amp; 12326217)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Accessibility: Skip to Content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg shadow-lg">
+    Skip to main content
+  </a>
+
+  <!-- Top Enterprise Navigation Bar -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-orange-600 flex items-center justify-center font-extrabold text-sm shadow-inner">
+          Q2
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-sm sm:text-base tracking-tight">Contract Clause Risk Review System</span>
+            <span id="backendConnectionBadge" class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 font-medium">
+              Group 2 • CO3 &amp; CO4 • 30 Marks
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-300 hidden sm:block">
+            <strong>Gursirat Singh</strong> (<span class="mono text-amber-300">12326116</span>) &amp;
+            <strong>Rounak Azad</strong> (<span class="mono text-amber-300">12326217</span>)
+          </p>
+        </div>
+      </div>
+
+      <!-- Primary Navigation Tabs with ARIA -->
+      <nav role="tablist" aria-label="Main Navigation" class="flex items-center gap-1 bg-slate-800/90 p-1 rounded-lg border border-slate-700 overflow-x-auto">
+        <button id="navTabDashboard" role="tab" aria-selected="true" aria-controls="view-dashboard" data-tab="dashboard" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white transition">
+          1. Risk Dashboard
+        </button>
+        <button id="navTabRedlines" role="tab" aria-selected="false" aria-controls="view-redlines" data-tab="redlines" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          2. Check Clauses &amp; Redlines
+        </button>
+        <button id="navTabClauses" role="tab" aria-selected="false" aria-controls="view-clauses" data-tab="clauses" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          3. Shared Clause Table
+        </button>
+        <button id="navTabEval" role="tab" aria-selected="false" aria-controls="view-eval" data-tab="eval" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          4. 10-Clause Evaluation (100%)
+        </button>
+        <button id="navTabPlaybooks" role="tab" aria-selected="false" aria-controls="view-playbooks" data-tab="playbooks" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          5. Playbooks &amp; Telemetry
+        </button>
+      </nav>
+
+      <!-- Action Buttons: Download PDF & Dark Mode -->
+      <div class="flex items-center gap-2">
+        <button id="btnDarkMode" class="px-3 py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 shadow-sm transition flex items-center gap-1.5" title="Toggle Dark / Light Mode" aria-label="Toggle Dark Mode">
+          🌙 Dark
+        </button>
+        <button id="btnDownloadPdfReport" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition flex items-center gap-1.5" aria-label="Download PDF Report">
+          <span>⬇ Download PDF Report</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Instant PDF / DOCX / TXT Contract Upload & Drag-and-Drop Area -->
+  <section class="bg-white border-b border-slate-200 shadow-2xs no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center bg-slate-50 p-3 rounded-xl border border-slate-200">
+        
+        <!-- Drag & Drop Upload Zone -->
+        <div id="dropZone" class="drop-zone lg:col-span-5 flex flex-wrap items-center gap-2 p-1.5 rounded-lg border-2 border-dashed border-slate-300 bg-white">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 shrink-0">📄 Upload:</span>
+          <input id="quickPdfUploadInput" type="file" accept=".pdf,.docx,.txt,.md" class="block flex-1 text-xs text-slate-700 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer">
+          <span class="text-[11px] text-slate-400 hidden xl:inline">or drag &amp; drop</span>
+        </div>
+
+        <div class="lg:col-span-4 flex items-center gap-2">
+          <label for="counterpartyInput" class="text-xs font-semibold text-slate-600 shrink-0">Counterparty:</label>
+          <input id="counterpartyInput" type="text" value="ApexCloud Infrastructure Inc." class="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-medium text-slate-800">
+        </div>
+
+        <div class="lg:col-span-3 flex items-center justify-end gap-1.5">
+          <button data-sample="apex_msa" class="sample-preset-btn px-2 py-1.5 rounded text-[11px] font-semibold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 transition" title="Load 12-Clause ApexCloud MSA">
+            Sample MSA
+          </button>
+          <button data-sample="unnumbered_draft" class="sample-preset-btn px-2 py-1.5 rounded text-[11px] font-semibold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 transition" title="Load Unnumbered Draft">
+            Unnumbered
+          </button>
+          <button id="btnAnalyzeCurrent" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">
+            Check Clauses
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span id="pipelineStatusText" class="font-semibold text-slate-800">
+            ReviewManagerAgent: All clauses validated &amp; synchronized in SharedClauseTable (100%)
+          </span>
+        </div>
+        <div class="text-slate-500">
+          Active Contract: <strong id="activeContractLabel" class="text-slate-900">ApexCloud_Enterprise_MSA_2026.pdf</strong>
+        </div>
+      </div>
+
+      <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+        <div id="pipelineProgressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 100%;"></div>
+      </div>
+
+      <div id="agentStepPills" class="grid grid-cols-2 sm:grid-cols-5 gap-2"></div>
+    </div>
+  </section>
+
+  <!-- Toast Banner (Accessible ARIA live region) -->
+  <div id="toastNotification" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-700 text-xs font-medium flex items-center gap-2.5 no-print">
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Main Workspace -->
+  <main id="main-content" class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 no-print">
+
+    <!-- Skeleton Loading State -->
+    <div id="loadingSkeleton" class="hidden space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+        <div class="skeleton h-5 w-48"></div>
+        <div class="skeleton h-7 w-72"></div>
+        <div class="skeleton h-4 w-full"></div>
+        <div class="skeleton h-4 w-4/5"></div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div class="skeleton h-24 rounded-xl"></div>
+        <div class="skeleton h-24 rounded-xl"></div>
+        <div class="skeleton h-24 rounded-xl"></div>
+        <div class="skeleton h-24 rounded-xl"></div>
+        <div class="skeleton h-24 rounded-xl"></div>
+        <div class="skeleton h-24 rounded-xl"></div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-4 skeleton h-72 rounded-xl"></div>
+        <div class="lg:col-span-5 skeleton h-72 rounded-xl"></div>
+        <div class="lg:col-span-3 skeleton h-72 rounded-xl"></div>
+      </div>
+    </div>
+
+    <!-- TAB 1: EXECUTIVE RISK DASHBOARD -->
+    <div id="view-dashboard" role="tabpanel" aria-labelledby="navTabDashboard" class="tab-view space-y-6">
+      <div id="dashboardContent" class="space-y-6">
+        
+        <!-- Executive Assessment Banner -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div class="space-y-1.5 max-w-3xl">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Executive Contract Assessment</span>
+              <span id="summaryReportIdBadge" class="text-xs mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded">RPT-APEX-2026</span>
+            </div>
+            <h1 id="dashboardContractTitle" class="text-xl font-bold text-slate-900">ApexCloud_Enterprise_MSA_2026.pdf</h1>
+            <p id="dashboardNarrative" class="text-sm text-slate-600 leading-relaxed"></p>
+          </div>
+
+          <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 min-w-[260px] flex flex-col justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Overall Approval Recommendation</span>
+            <div class="my-1.5">
+              <span id="approvalRecBadge" class="px-3 py-1 rounded-full text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                Approve with Changes
+              </span>
+            </div>
+            <p id="approvalJustificationText" class="text-xs text-slate-600 leading-snug"></p>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
+            <div class="text-xs font-medium text-slate-500">Composite Risk</div>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span id="kpiCompositeScore" class="text-2xl font-extrabold text-slate-900">76</span>
+              <span class="text-xs text-slate-500">/ 100</span>
+            </div>
+            <div id="kpiCompositeLevel" class="mt-1 text-xs font-semibold text-rose-600">High / Critical Exposure</div>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
+            <div class="text-xs font-medium text-slate-500">Clauses Analyzed</div>
+            <div id="kpiTotalClauses" class="mt-1 text-2xl font-extrabold text-slate-900">12</div>
+            <div id="kpiFlaggedCount" class="mt-1 text-xs text-slate-500">9 Flagged for Redline</div>
+          </div>
+          <div class="bg-white rounded-xl border border-rose-200 p-4 shadow-xs">
+            <div class="text-xs font-semibold text-rose-700">Critical Risk (80–100)</div>
+            <div id="kpiCriticalCount" class="mt-1 text-2xl font-extrabold text-rose-600">3</div>
+            <div class="mt-1 text-xs text-rose-600/80">Immediate Blocker</div>
+          </div>
+          <div class="bg-white rounded-xl border border-orange-200 p-4 shadow-xs">
+            <div class="text-xs font-semibold text-orange-700">High Risk (60–79)</div>
+            <div id="kpiHighCount" class="mt-1 text-2xl font-extrabold text-orange-600">3</div>
+            <div class="mt-1 text-xs text-orange-600/80">Mandatory Redline</div>
+          </div>
+          <div class="bg-white rounded-xl border border-amber-200 p-4 shadow-xs">
+            <div class="text-xs font-semibold text-amber-700">Medium / Low (20–59)</div>
+            <div id="kpiMedLowCount" class="mt-1 text-2xl font-extrabold text-amber-600">3</div>
+            <div class="mt-1 text-xs text-amber-700/80">2 Medium, 1 Low</div>
+          </div>
+          <div class="bg-white rounded-xl border border-emerald-200 p-4 shadow-xs">
+            <div class="text-xs font-semibold text-emerald-700">No Risk (0–19)</div>
+            <div id="kpiNoRiskCount" class="mt-1 text-2xl font-extrabold text-emerald-600">3</div>
+            <div class="mt-1 text-xs text-emerald-600/80">Playbook Compliant</div>
+          </div>
+        </div>
+
+        <!-- 3-Chart Grid: Doughnut, Horizontal Bar, Category Radar -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <div class="lg:col-span-4 bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <h2 class="text-sm font-bold text-slate-900">Risk Severity Distribution</h2>
+            <p class="text-xs text-slate-500 mb-3">Breakdown across 5 standardized risk tiers</p>
+            <div class="relative h-64">
+              <canvas id="severityChartCanvas"></canvas>
+            </div>
+          </div>
+          <div class="lg:col-span-5 bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <h2 class="text-sm font-bold text-slate-900">Clause Risk Profile (0–100)</h2>
+            <p class="text-xs text-slate-500 mb-3">Evaluated by RiskScorerAgent (@kernel_function tool)</p>
+            <div class="relative h-64">
+              <canvas id="clauseScoreChartCanvas"></canvas>
+            </div>
+          </div>
+          <div class="lg:col-span-3 bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <h2 class="text-sm font-bold text-slate-900">Category Risk Radar</h2>
+            <p class="text-xs text-slate-500 mb-3">5 Governance Pillars Exposure</p>
+            <div class="relative h-64">
+              <canvas id="radarChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Risks & Negotiation Roadmap -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <h2 class="text-sm font-bold text-slate-900 mb-3">Top Contractual Risks Requiring Immediate Attention</h2>
+            <ul id="topRisksList" class="space-y-2.5 text-xs text-slate-700"></ul>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+            <h2 class="text-sm font-bold text-slate-900 mb-3">Recommended Counterparty Negotiation Priorities &amp; Fallbacks</h2>
+            <ol id="negotiationPrioritiesList" class="space-y-2.5 text-xs text-slate-700 list-decimal list-inside"></ol>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: CHECK CLAUSES & SIDE-BY-SIDE REDLINE STUDIO -->
+    <div id="view-redlines" role="tabpanel" aria-labelledby="navTabRedlines" class="tab-view hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-4 bg-white rounded-xl border border-slate-200 p-4 shadow-xs flex flex-col max-h-[780px]">
+          <div class="mb-3 pb-3 border-b border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-slate-900">Extracted Contract Clauses</h2>
+              <label class="flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
+                <input type="checkbox" id="toggleFlaggedOnly" class="rounded text-indigo-600">
+                <span>Flagged Only</span>
+              </label>
+            </div>
+            <input id="studioSearchInput" type="text" placeholder="Filter clauses by keyword or section..." class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+          </div>
+          <div id="redlineClauseSidebarList" class="space-y-2 overflow-y-auto custom-scroll pr-1 flex-1"></div>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div id="redlineDetailContainer" class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-5"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SHARED CLAUSE TABLE -->
+    <div id="view-clauses" role="tabpanel" aria-labelledby="navTabClauses" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Centralized Shared Clause Table (Risk-Ranked)</h2>
+            <p class="text-xs text-slate-500">Synchronized state read and written by all 5 agents</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="clauseSearchInput" type="text" placeholder="Search clause heading, text, or policy ref..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg w-64">
+            <select id="severityFilterSelect" class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+              <option value="ALL">All Severities</option>
+              <option value="Critical">Critical Only (80–100)</option>
+              <option value="High">High Only (60–79)</option>
+              <option value="Medium">Medium Only (40–59)</option>
+              <option value="Low">Low Only (20–39)</option>
+              <option value="No Risk">No Risk Only (0–19)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b-2 border-slate-200 text-xs font-bold text-slate-600 uppercase">
+                <th class="py-3 px-3">Clause ID &amp; Heading</th>
+                <th class="py-3 px-3">Risk Score</th>
+                <th class="py-3 px-3">Severity</th>
+                <th class="py-3 px-3">Playbook Reference (RAG)</th>
+                <th class="py-3 px-3">Identified Risk Explanation</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="sharedClauseTableBody" class="divide-y divide-slate-200 text-xs"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CA2 10-CLAUSE HUMAN VS SYSTEM AGREEMENT BENCHMARK -->
+    <div id="view-eval" role="tabpanel" aria-labelledby="navTabEval" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-orange-600">CA2 Mandatory Evaluation Target</span>
+            <h2 class="text-base font-bold text-slate-900">10 Group-Labelled Contract Clauses vs. Multi-Agent System Predictions</h2>
+            <p class="text-xs text-slate-500">Group 2: Gursirat Singh (12326116) &amp; Rounak Azad (12326217) — Low, Medium, and High Risk Agreement Report</p>
+          </div>
+          <div id="evalAgreementBadge" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold text-sm">
+            Overall Agreement: 10 / 10 (100.0%)
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b-2 border-slate-200 font-bold text-slate-600 uppercase">
+                <th class="py-2.5 px-3">Clause # &amp; Heading</th>
+                <th class="py-2.5 px-3">Group 2 Label</th>
+                <th class="py-2.5 px-3">System Label</th>
+                <th class="py-2.5 px-3">Risk Score (5-Tier)</th>
+                <th class="py-2.5 px-3">Governing Playbook Ref</th>
+                <th class="py-2.5 px-3">Match</th>
+              </tr>
+            </thead>
+            <tbody id="evalTableBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: PLAYBOOKS & AGENT TELEMETRY -->
+    <div id="view-playbooks" role="tabpanel" aria-labelledby="navTabPlaybooks" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Internal Company Playbook Vector Index (RAG)</h2>
+            <p class="text-xs text-slate-500">12 governing policy chunks across Legal, InfoSec/AI, and Commercial playbooks</p>
+          </div>
+          <input id="playbookSearchInput" type="text" placeholder="Filter playbook rules..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg w-56">
+        </div>
+        <div id="playbookChunksContainer" class="space-y-3"></div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Manager-Worker Execution Telemetry</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b-2 border-slate-200 font-bold text-slate-600 uppercase">
+                <th class="py-2.5 px-3">Agent Module</th>
+                <th class="py-2.5 px-3">Workflow Stage</th>
+                <th class="py-2.5 px-3">Clauses</th>
+                <th class="py-2.5 px-3">Duration</th>
+                <th class="py-2.5 px-3">Status</th>
+                <th class="py-2.5 px-3">Details</th>
+              </tr>
+            </thead>
+            <tbody id="agentTraceTableBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Print-only Report View -->
+  <section id="printableReportSection" class="hidden print-only p-8 space-y-6 text-slate-900"></section>
+
+  <!-- ES Module Application Controller -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

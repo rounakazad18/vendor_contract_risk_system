@@ -1,13 +1,5 @@
 """
 Agent 5: Review Manager Agent
-Responsibilities:
-- Act as the central orchestrator in the Manager-Worker Multi-Agent Architecture.
-- Register and coordinate specialist agents via the Semantic Kernel / Agent Framework registry.
-- Delegate tasks to all specialist agents (Clause Splitter, Playbook Retrieval, Risk Scorer, Redline Drafter).
-- Manage execution order, dependencies, and controlled parallel batch processing.
-- Coordinate shared memory (SharedClauseTable) and Repeat Counterparty NegotiationHistoryMemory.
-- Validate agent outputs and handle failures gracefully.
-- Compile the final risk-ranked ContractReviewReport.
 """
 
 from __future__ import annotations
@@ -40,13 +32,6 @@ logger = logging.getLogger(__name__)
 
 
 class ReviewManagerAgent:
-    """
-    Agent 5: Central Orchestrator implementing the Manager-Worker Delegation Architecture.
-    Coordinates specialist worker agents, registers `@kernel_function` plugins in
-    `AgentKernelRegistry`, consults `NegotiationHistoryMemory`, enforces policy traceability,
-    and compiles the final `ContractReviewReport`.
-    """
-
     AGENT_NAME = "ReviewManagerAgent"
 
     def __init__(
@@ -67,7 +52,6 @@ class ReviewManagerAgent:
         self.counterparty_name = counterparty_name
         self.max_concurrency = max_concurrency
 
-        # Initialize the 4 specialist worker agents
         self.splitter_agent = ClauseSplitterAgent()
         self.retrieval_agent = PlaybookRetrievalAgent(vector_store=self.vector_store)
         self.scorer_agent = RiskScorerAgent()
@@ -76,7 +60,6 @@ class ReviewManagerAgent:
             counterparty_name=self.counterparty_name,
         )
 
-        # Register specialist plugins in Semantic Kernel / Agent Framework registry
         self.kernel_registry = AgentKernelRegistry()
         self.kernel_registry.register_plugin(self.splitter_agent, "ClauseSplitterPlugin")
         self.kernel_registry.register_plugin(self.retrieval_agent, "PlaybookRetrievalPlugin")
@@ -157,7 +140,6 @@ class ReviewManagerAgent:
                 "PlaybookVectorStore has no indexed playbook chunks. Index at least one playbook before running analysis."
             )
 
-        # Step 1: Delegate to Clause Splitter Agent
         t_split = time.perf_counter()
         iso_split = datetime.datetime.now(datetime.timezone.utc).isoformat()
         if progress_callback:
@@ -183,7 +165,6 @@ class ReviewManagerAgent:
 
         semaphore = asyncio.Semaphore(self.max_concurrency)
 
-        # Step 2: Delegate to Playbook Retrieval Agent (controlled parallel RAG lookup)
         t_rag = time.perf_counter()
         iso_rag = datetime.datetime.now(datetime.timezone.utc).isoformat()
         if progress_callback:
@@ -207,7 +188,6 @@ class ReviewManagerAgent:
             ),
         )
 
-        # Step 3: Delegate to Risk Scorer Agent (controlled parallel scoring via @kernel_function tool)
         t_score = time.perf_counter()
         iso_score = datetime.datetime.now(datetime.timezone.utc).isoformat()
         if progress_callback:
@@ -228,7 +208,6 @@ class ReviewManagerAgent:
             details=f"Scored {len(clauses)} clauses (0–100 scale) and classified risk severities.",
         )
 
-        # Step 4: Delegate to Redline Drafter Agent (with Repeat Counterparty NegotiationHistoryMemory)
         t_red = time.perf_counter()
         iso_red = datetime.datetime.now(datetime.timezone.utc).isoformat()
         if progress_callback:
@@ -250,7 +229,6 @@ class ReviewManagerAgent:
             details=f"Generated playbook-grounded replacement wording and diffs for {flagged_count} flagged clauses (Counterparty: {self.counterparty_name}).",
         )
 
-        # Step 5: Review Manager validation & report consolidation
         t_val = time.perf_counter()
         iso_val = datetime.datetime.now(datetime.timezone.utc).isoformat()
         if progress_callback:

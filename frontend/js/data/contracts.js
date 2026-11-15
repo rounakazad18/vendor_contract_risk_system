@@ -1,8 +1,10 @@
-MASTER SAAS AND CLOUD SERVICES AGREEMENT
-Contract Reference: APEX-MSA-2026-089
-Between: ApexCloud Infrastructure Inc. ("Vendor") and Enterprise Customer Corp. ("Customer")
+// data/contracts.js — Sample contracts for in-browser fallback demo
 
-1. Scope of Services and Affiliates.
+export const SAMPLE_CONTRACTS = {
+  apex_msa: {
+    filename: "ApexCloud_Enterprise_MSA_2026.pdf",
+    counterparty: "ApexCloud Infrastructure Inc.",
+    text: `1. Scope of Services and Affiliates.
 1.1 Vendor shall provide the cloud hosting, analytics platform, and support services described in each mutually executed Order Form in accordance with a 99.95% monthly uptime Service Level Agreement.
 1.2 Customer's majority-owned Affiliates are expressly authorized to access and use the Services under the terms of this Agreement without additional platform access fees.
 
@@ -47,4 +49,29 @@ Between: ApexCloud Infrastructure Inc. ("Vendor") and Enterprise Customer Corp. 
 
 12. Force Majeure and Business Continuity.
 12.1 Neither Party shall be liable for failure or delay in performance caused by a Force Majeure event beyond its reasonable control, provided the affected Party provides prompt written notice and activates its Business Continuity and Disaster Recovery Plan within 24 hours.
-12.2 If a Force Majeure event prevents Vendor from performing for more than fifteen (15) consecutive calendar days, Customer may terminate the affected Order Form immediately upon written notice and receive a full pro-rata refund of prepaid unearned fees.
+12.2 If a Force Majeure event prevents Vendor from performing for more than fifteen (15) consecutive calendar days, Customer may terminate the affected Order Form immediately upon written notice and receive a full pro-rata refund of prepaid unearned fees.`
+  },
+  unnumbered_draft: {
+    filename: "Unnumbered_Vendor_Draft_2026.txt",
+    counterparty: "NovaTech Cloud Services LLC",
+    text: `Payment Terms: All invoices must be paid within fifteen (15) days (Net 15) and late balances carry 2.5% per month interest. Vendor may increase fees at any time in its sole discretion without cap.
+
+Data Privacy and AI Policy: Vendor will report security incidents within ten (10) business days after internal review and may use Customer Data to train its artificial intelligence and machine learning foundation models.
+
+Limitation of Liability: In no event shall Vendor be liable for any indirect damages, and Vendor's total liability shall not exceed the fees paid in the one (1) month prior to the claim.
+
+Intellectual Property: All deliverables and custom configurations funded by Customer shall belong exclusively to Vendor, and derivative works are the sole property of Vendor.`
+  },
+  compliant_nda: {
+    filename: "Standard_Playbook_Compliant_MSA.docx",
+    counterparty: "TrustedPartner Enterprise Corp.",
+    text: `1. Scope of Services and Affiliates.
+1.1 Vendor shall provide the cloud services described in each Order Form in accordance with a 99.95% monthly uptime SLA, and Customer's Affiliates may use the Services without additional base fees.
+
+2. Confidentiality and Non-Disclosure.
+2.1 Each Party agrees to hold the other Party's Confidential Information in strict confidence using at least reasonable care and to return or destroy all Confidential Information within thirty (30) days of termination.
+
+3. Force Majeure and Business Continuity.
+3.1 Neither Party shall be liable for Force Majeure delays provided it activates its Business Continuity Plan within 24 hours, and Customer may terminate with a pro-rata refund if a disruption exceeds fifteen (15) consecutive days.`
+  }
+};

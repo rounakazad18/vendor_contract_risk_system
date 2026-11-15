@@ -1,7 +1,5 @@
 """
 Centralized thread-safe and async-safe Shared Clause Table for multi-agent coordination.
-Prevents duplicate clause processing, validates state transitions, and ensures
-data consistency throughout the contract analysis workflow.
 """
 
 from __future__ import annotations
@@ -10,7 +8,7 @@ import datetime
 import hashlib
 import logging
 import threading
-from typing import Dict, List, Optional, Callable
+from typing import Dict, List, Optional
 from schemas import (
     ClauseRecord,
     PlaybookReference,
@@ -23,16 +21,17 @@ logger = logging.getLogger(__name__)
 
 
 class SharedClauseTable:
-    """
-    Centralized shared memory structure that all specialist agents read from and update.
-    Enforces atomic updates, content deduplication, and schema validation.
-    """
-
     def __init__(self) -> None:
         self._records: Dict[str, ClauseRecord] = {}
-        self._content_hashes: Dict[str, str] = {}  # sha256(normalized_text) -> clause_id
+        self._content_hashes: Dict[str, str] = {}
         self._lock = threading.RLock()
-        self._async_lock = asyncio.Lock()
+        self._async_lock: Optional[asyncio.Lock] = None
+
+    def _get_async_lock(self) -> asyncio.Lock:
+        with self._lock:
+            if self._async_lock is None:
+                self._async_lock = asyncio.Lock()
+            return self._async_lock
 
     @staticmethod
     def _compute_hash(text: str) -> str:
@@ -40,11 +39,6 @@ class SharedClauseTable:
         return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
     def register_clause(self, record: ClauseRecord) -> bool:
-        """
-        Inserts a newly extracted clause into the shared table.
-        Prevents duplicate clause processing via both ID and normalized text hash checks.
-        Returns True if inserted, False if duplicate.
-        """
         if not record.clause_id or not record.original_text or not record.original_text.strip():
             raise ValueError("Invalid ClauseRecord: clause_id and non-empty original_text are required.")
 
@@ -86,7 +80,7 @@ class SharedClauseTable:
         policy_rules: List[str],
         missing_reference: bool = False,
     ) -> ClauseRecord:
-        async with self._async_lock:
+        async with self._get_async_lock():
             with self._lock:
                 if clause_id not in self._records:
                     raise KeyError(f"Clause ID '{clause_id}' not found in SharedClauseTable.")
@@ -116,7 +110,7 @@ class SharedClauseTable:
         if not risk_explanation or not risk_explanation.strip():
             raise ValueError("Risk explanation cannot be empty.")
 
-        async with self._async_lock:
+        async with self._get_async_lock():
             with self._lock:
                 if clause_id not in self._records:
                     raise KeyError(f"Clause ID '{clause_id}' not found in SharedClauseTable.")
@@ -144,7 +138,7 @@ class SharedClauseTable:
         if not rationale or not rationale.strip():
             raise ValueError("Redline rationale cannot be empty.")
 
-        async with self._async_lock:
+        async with self._get_async_lock():
             with self._lock:
                 if clause_id not in self._records:
                     raise KeyError(f"Clause ID '{clause_id}' not found in SharedClauseTable.")

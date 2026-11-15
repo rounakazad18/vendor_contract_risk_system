@@ -1,121 +1,53 @@
-# Multi-Agent Vendor Contract Risk Review System
+# Q2: Contract Clause Risk Review System (Group 2 — CO3 & CO4, 30 Marks)
 
-A modular, production-oriented **Manager-Worker Multi-Agent System** for analyzing vendor contracts (`.pdf`, `.docx`, `.txt`) against internal company legal, security, and commercial playbooks.
+- **Group Members**: Gursirat Singh (`12326116`) & Rounak Azad (`12326217`)
+- **Architecture**: Manager-Worker Multi-Agent System with Semantic Kernel (`@kernel_function`) tool plugins, RAG `PlaybookVectorStore`, `SharedClauseTable`, `NegotiationHistoryMemory`, and a dedicated Web Frontend (`frontend/`).
 
----
+## Project Structure
 
-## 👥 Authors / Project Credits
-- **Group 2:** Gursirat Singh (12326116) & Rounak Azad (12326217)
-- **Target Outcome:** CO3 & CO4
-
----
-
-## 🏗️ System Architecture & Workflow
-
-The system utilizes a 5-agent sequential pipeline coordinated by an asynchronous manager with thread-safe shared memory:
-
-```
-Contract Document (.pdf / .docx / .txt)
-                    │
-                    ▼
-   [1] ClauseSplitterAgent      ──> Segments contract into structured clauses & subclauses
-                    │
-                    ▼
-   [2] PlaybookRetrievalAgent   ──> Hybrid RAG semantic retrieval over internal company playbooks
-                    │
-                    ▼
-   [3] RiskScorerAgent          ──> Evaluates policy violations & assigns 0–100 risk score
-                    │
-                    ▼
-   [4] RedlineDrafterAgent      ──> Drafts playbook-aligned redlines (ADD / MODIFY / REMOVE)
-                    │
-                    ▼
-   [5] ReviewManagerAgent       ──> Validates citations, trace logs & compiles final audit report
-                    │
-                    ▼
-      Final Output: Interactive Streamlit UI / PDF / HTML / JSON Reports
-```
-
-### Module Breakdown
-- **`schemas.py`**: Structured dataclasses (`ClauseRecord`, `PlaybookChunk`, `PlaybookReference`, `DiffOperation`, `ContractReviewReport`, `AgentExecutionTrace`) for typed inter-agent communication.
-- **`shared_memory.py`**: Thread-safe and async-safe `SharedClauseTable` with SHA-256 normalized text deduplication and strict state-transition validation.
-- **`vector_store.py`**: Hybrid RAG `PlaybookVectorStore` combining TF-IDF unigram/bigram features with 12 legal domain concept clusters and cosine similarity retrieval across multiple playbook documents.
-- **`agents/clause_splitter.py` (`ClauseSplitterAgent`)**: Extracts contract text from `.pdf`, `.docx`, and `.txt` files, segments numbered or unnumbered clauses while preserving subclauses, and populates the `SharedClauseTable`.
-- **`agents/playbook_retrieval.py` (`PlaybookRetrievalAgent`)**: Runs RAG semantic retrieval per clause, maps governing company policy rules with exact section references, and explicitly flags missing playbook references.
-- **`agents/risk_scorer.py` (`RiskScorerAgent`)**: Evaluates each clause on a 0–100 severity scale (`Critical`, `High`, `Medium`, `Low`, `No Risk`), detailing policy violations, missing protections, ambiguous phrasing, and unfavorable obligations.
-- **`agents/redline_drafter.py` (`RedlineDrafterAgent`)**: Drafts playbook-grounded replacement wording, structured `REMOVE` / `MODIFY` / `ADD` diff operations, and negotiation fallback rationales for every flagged clause.
-- **`agents/review_manager.py` (`ReviewManagerAgent`)**: Central orchestrator managing execution order, controlled asynchronous concurrency (`asyncio.Semaphore`), output validation, and report compilation.
-- **`report_generator.py`**: Generates publication-ready HTML/PDF contract review reports and structured JSON exports.
-- **`frontend_app.py`**: Interactive Streamlit web UI with side-by-side redline comparison, risk distribution charts, ground-truth benchmarks, and 1-click PDF download.
-- **`evaluate_10_clauses.py`**: Ground-truth benchmark evaluator comparing human legal labels against multi-agent predictions.
-- **`tests/test_system.py`**: Unit and integration test suite covering all 10 validation dimensions (including PDF, DOCX, TXT, unnumbered contracts, deduplication, and malformed input handling).
-
----
-
-## 🚀 Quick Start Guide
-
-### 1. Installation
-
-Clone or extract the repository and install the dependencies:
-
-```bash
-# Optional: create & activate a virtual environment
-python3 -m venv .venv
-source .venv/bin/activate       # On macOS / Linux
-# .venv\Scripts\activate       # On Windows
-
-# Install required dependencies
-pip install -r requirements.txt
+```text
+vendor_contract_risk_system/
+├── frontend/                        # Proper Web Frontend (HTML5 + CSS3 + ES6 JS + Chart.js)
+│   ├── index.html                   # Main enterprise application shell
+│   ├── css/
+│   │   └── styles.css               # Custom enterprise stylesheet & print styles
+│   └── js/
+│       └── app.js                   # Frontend state, REST API client, PDF upload & redline studio
+├── agents/                          # 5 Separate Specialist AI Agent Modules (Unchanged Backend)
+│   ├── clause_splitter.py           # Agent 1: PDF/DOCX/TXT extraction & clause segmentation
+│   ├── playbook_retrieval.py        # Agent 2: Hybrid TF-IDF + Legal Concept RAG retrieval
+│   ├── risk_scorer.py               # Agent 3: @kernel_function 0–100 rules & severity scorer
+│   ├── redline_drafter.py           # Agent 4: Playbook redline drafter + negotiation memory
+│   └── review_manager.py            # Agent 5: Central Manager-Worker orchestrator
+├── data/
+│   └── sample_data.py               # 3 Internal Company Playbooks & PDF/DOCX/TXT sample generator
+├── tests/
+│   └── test_system.py               # 10 Unit & Integration Test Suites
+├── schemas.py                       # Typed dataclasses & enums for inter-agent communication
+├── shared_memory.py                 # Thread/Async-safe SharedClauseTable with SHA-256 deduplication
+├── vector_store.py                  # RAG PlaybookVectorStore
+├── framework_adapter.py             # Semantic Kernel @kernel_function plugin adapter
+├── negotiation_memory.py            # Repeat Counterparty Negotiation-History Memory
+├── evaluate_10_clauses.py           # CA2 10-Clause Human vs. System Agreement Benchmark (100%)
+├── report_generator.py              # Print-ready HTML/PDF report builder
+├── main.py                          # CLI pipeline runner
+├── server.py                        # Full-Stack REST API & Static Frontend Server (Port 8050)
+└── frontend_app.py                  # Alias launcher for server.py
 ```
 
----
+## Quick Start (Windows / macOS / Linux — No Streamlit Needed)
 
-### 2. Launching the Web UI (Streamlit Frontend)
-
-#### macOS / Linux:
-```bash
-./launch_frontend.sh
-```
-*Or manually:*
-```bash
-streamlit run frontend_app.py
-```
-
-#### Windows:
-Double-click `launch_frontend.bat` or run:
-```cmd
-launch_frontend.bat
-```
-
-Once running, open your browser at **`http://localhost:8501`**.
-
----
-
-### 3. Running via Command Line (CLI)
-
-To run the end-to-end pipeline directly on the sample contract and generate `report.html` and `report.json`:
-
-```bash
-python3 main.py
-```
-
-To view the generated HTML report:
-```bash
-open report.html      # On macOS
-# start report.html   # On Windows
-```
-
----
-
-### 4. Running Tests & Benchmarks
-
-```bash
-# Run unit & integration test suite
-python3 -m unittest discover -s tests -p "test_*.py" -v
-
-# Run the 10-clause ground-truth evaluation benchmark
-python3 evaluate_10_clauses.py
-
-
-./launch_frontend.sh
-```
+1. **Install the 3 backend libraries** (inside your `.venv`):
+   ```cmd
+   python -m pip install numpy python-docx pdfplumber
+   ```
+2. **Launch the Proper Web Frontend & REST API Server**:
+   ```cmd
+   python server.py
+   ```
+   *(Or `python frontend_app.py` — both automatically open `http://127.0.0.1:8050` in your browser! You can also double-click `frontend/index.html` directly.)*
+3. **Run the CA2 10-Clause Agreement Benchmark & Test Suite**:
+   ```cmd
+   python evaluate_10_clauses.py
+   python tests\test_system.py
+   ```

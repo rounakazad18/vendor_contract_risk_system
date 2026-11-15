@@ -1,12 +1,5 @@
 """
 Agent 1: Clause Splitter Agent
-Responsibilities:
-- Extract text from uploaded vendor contracts (PDF, DOCX, or TXT).
-- Break the contract into individual, numbered clauses.
-- Preserve clause numbering, headings, and subclauses.
-- Assign a unique ID to every clause.
-- Store extracted clauses in the SharedClauseTable.
-- Handle poorly formatted or unnumbered contracts gracefully.
 """
 
 from __future__ import annotations
@@ -14,21 +7,23 @@ import logging
 import os
 import re
 from typing import List, Tuple
-import docx
-import pdfplumber
+try:
+    import docx
+except ImportError:
+    docx = None
+
+try:
+    import pdfplumber
+except ImportError:
+    pdfplumber = None
 from schemas import ClauseRecord, ProcessingStatus
 from shared_memory import SharedClauseTable
+from framework_adapter import kernel_function
 
 logger = logging.getLogger(__name__)
 
 
 class ClauseSplitterAgent:
-    """
-    Agent 1: Extracts contract text from PDF, DOCX, or TXT files, parses numbered
-    or unnumbered clauses (preserving subclauses), assigns unique Clause IDs, and
-    populates the SharedClauseTable.
-    """
-
     AGENT_NAME = "ClauseSplitterAgent"
 
     UNNUMBERED_HEADING_KEYWORDS = [
@@ -61,11 +56,11 @@ class ClauseSplitterAgent:
         "warranties",
     ]
 
+    @kernel_function(
+        name="extract_text_from_contract_tool",
+        description="Extracts raw text from PDF, DOCX, or TXT vendor contract files.",
+    )
     def extract_text_from_file(self, file_path: str) -> str:
-        """
-        Extracts raw text from a PDF, DOCX, or TXT vendor contract file.
-        Raises ValueError on unsupported or corrupted/empty files.
-        """
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Contract file not found: {file_path}")
 
@@ -95,11 +90,20 @@ class ClauseSplitterAgent:
         elif ext == ".pdf":
             try:
                 pages_text: List[str] = []
-                with pdfplumber.open(file_path) as pdf:
-                    for page in pdf.pages:
-                        t = page.extract_text()
-                        if t and t.strip():
-                            pages_text.append(t.strip())
+                if pdfplumber is not None:
+                    with pdfplumber.open(file_path) as pdf:
+                        for page in pdf.pages:
+                            t = page.extract_text()
+                            if t and t.strip():
+                                pages_text.append(t.strip())
+                else:
+                    import PyPDF2
+                    with open(file_path, "rb") as f:
+                        reader = PyPDF2.PdfReader(f)
+                        for page in reader.pages:
+                            t = page.extract_text()
+                            if t and t.strip():
+                                pages_text.append(t.strip())
                 extracted_text = "\n\n".join(pages_text)
             except Exception as exc:
                 raise ValueError(f"Failed to read PDF contract '{file_path}': {exc}") from exc
@@ -116,11 +120,6 @@ class ClauseSplitterAgent:
     def split_text_into_clauses(
         self, raw_text: str, shared_table: SharedClauseTable, contract_prefix: str = "CL"
     ) -> List[ClauseRecord]:
-        """
-        Splits raw contract text into structured ClauseRecord objects, handles both
-        well-structured numbered clauses and poorly formatted/unnumbered contracts,
-        preserves subclauses, and registers them in SharedClauseTable.
-        """
         if not raw_text or not raw_text.strip():
             raise ValueError("Cannot split empty contract text.")
 
@@ -159,10 +158,6 @@ class ClauseSplitterAgent:
     def _split_numbered_clauses(
         self, text: str
     ) -> List[Tuple[str, str, str, List[str]]]:
-        """
-        Identifies top-level numbered clauses while keeping subclauses (1.1, 1.2, (a), (b))
-        nested inside their parent clause.
-        """
         pattern = re.compile(
             r"(?m)^(?:(?:SECTION|ARTICLE|CLAUSE)\s+)?(\d{1,2})[\.\:\)]\s+([A-Z][A-Za-z0-9\s\,\&\-\/\(\)\']{2,75}?)(?:\.\s+|\n)"
         )
@@ -197,10 +192,6 @@ class ClauseSplitterAgent:
     def _split_unnumbered_clauses(
         self, text: str
     ) -> List[Tuple[str, str, str, List[str]]]:
-        """
-        Segments poorly formatted or unnumbered contracts by paragraph breaks or inline
-        all-caps / keyword headings and assigns synthetic sequential numbers.
-        """
         raw_paragraphs = [p.strip() for p in re.split(r"\n\s*\n+", text) if p.strip()]
         if len(raw_paragraphs) == 1:
             raw_paragraphs = [

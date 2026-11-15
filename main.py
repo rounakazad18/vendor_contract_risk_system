@@ -1,6 +1,6 @@
 """
-Main Entry Point & End-to-End Pipeline Runner for the
-Multi-Agent Vendor Contract Risk Review System.
+Main Entry Point & End-to-End Pipeline Runner (`main.py`)
+Group 2: Gursirat Singh (12326116) & Rounak Azad (12326217)
 """
 
 from __future__ import annotations

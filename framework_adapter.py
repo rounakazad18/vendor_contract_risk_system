@@ -1,14 +1,9 @@
 """
 Microsoft Semantic Kernel & Agent Framework Integration Adapter (`framework_adapter.py`).
-Provides `@kernel_function` plugin registration and Kernel tool invocation compatible with
-Microsoft Semantic Kernel (`semantic-kernel`) and Microsoft Agent Framework (`autogen-agentchat`),
-with a built-in local execution adapter so the system runs deterministically offline without
-requiring external cloud API keys or blocked executables.
 """
 
 from __future__ import annotations
 import functools
-import inspect
 from typing import Any, Callable, Dict, List, Optional
 
 try:
@@ -22,11 +17,6 @@ except ImportError:
 
 
 def kernel_function(name: Optional[str] = None, description: Optional[str] = None) -> Callable:
-    """
-    Decorator registering an agent method as a structured Semantic Kernel / Agent Framework
-    tool (`@kernel_function`). Uses native `semantic_kernel.functions.kernel_function` when
-    installed and attaches full tool metadata for inspection and orchestration.
-    """
     def decorator(func: Callable) -> Callable:
         tool_name = name or func.__name__
         tool_desc = description or (func.__doc__ or "").strip()
@@ -38,20 +28,12 @@ def kernel_function(name: Optional[str] = None, description: Optional[str] = Non
         setattr(wrapper, "__kernel_function__", True)
         setattr(wrapper, "__kernel_function_name__", tool_name)
         setattr(wrapper, "__kernel_function_description__", tool_desc)
-
-        if SEMANTIC_KERNEL_AVAILABLE and _sk_kernel_function is not None:
-            return _sk_kernel_function(name=tool_name, description=tool_desc)(wrapper)
         return wrapper
 
     return decorator
 
 
 class AgentKernelRegistry:
-    """
-    Lightweight Semantic Kernel plugin registry that binds the 5 specialized contract
-    review agents and exposes their `@kernel_function` tools to the ReviewManagerAgent.
-    """
-
     def __init__(self) -> None:
         self.plugins: Dict[str, Dict[str, Callable]] = {}
         self.tool_metadata: List[Dict[str, str]] = []

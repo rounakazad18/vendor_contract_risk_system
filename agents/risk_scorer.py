@@ -1,13 +1,5 @@
 """
 Agent 3: Risk Scorer Agent
-Responsibilities:
-- Evaluate each contract clause against retrieved playbook rules using a structured
-  rules and severity scoring tool (`@kernel_function`).
-- Assign a risk score from 0–100.
-- Categorize risks into Critical, High, Medium, Low, or No Risk (plus 3-tier CA2 High/Medium/Low mapping).
-- Explain why a clause is risky.
-- Identify missing protections, policy violations, ambiguous language, and unfavorable obligations.
-- Store the risk assessment in the SharedClauseTable.
 """
 
 from __future__ import annotations
@@ -22,12 +14,6 @@ logger = logging.getLogger(__name__)
 
 
 class RiskScorerAgent:
-    """
-    Agent 3: Evaluates contract clauses against retrieved playbook references using a
-    structured `@kernel_function` rules and severity scoring tool (0–100) and stores
-    findings in the SharedClauseTable.
-    """
-
     AGENT_NAME = "RiskScorerAgent"
 
     RULE_EVALUATORS: List[Dict[str, Any]] = [

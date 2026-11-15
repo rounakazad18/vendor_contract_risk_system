@@ -1,0 +1,14 @@
+// data/benchmark.js — CA2 10-clause benchmark ground truth
+
+export const CA2_10_CLAUSE_BENCHMARK = [
+  { clause_number: "1",  clause_heading: "Scope of Services and Affiliates",                          group_human_label: "Low",    system_3tier_label: "Low",    system_5tier_severity: "No Risk",  risk_score: 5,  playbook_ref: "POL-LEGAL-2026-v4.2 §1.1", agreed: true },
+  { clause_number: "2",  clause_heading: "Term, Auto-Renewal and Termination Rights",                 group_human_label: "High",   system_3tier_label: "High",   system_5tier_severity: "High",     risk_score: 74, playbook_ref: "POL-FIN-2026-v2.0 §1.4",   agreed: true },
+  { clause_number: "3",  clause_heading: "Fees, Invoicing, Payment Terms and Price Escalation",       group_human_label: "High",   system_3tier_label: "High",   system_5tier_severity: "High",     risk_score: 72, playbook_ref: "POL-FIN-2026-v2.0 §2.1",   agreed: true },
+  { clause_number: "4",  clause_heading: "Intellectual Property and Work Product Ownership",          group_human_label: "High",   system_3tier_label: "High",   system_5tier_severity: "Critical", risk_score: 88, playbook_ref: "POL-LEGAL-2026-v4.2 §3.2", agreed: true },
+  { clause_number: "5",  clause_heading: "Indemnification Obligations",                               group_human_label: "High",   system_3tier_label: "High",   system_5tier_severity: "High",     risk_score: 78, playbook_ref: "POL-LEGAL-2026-v4.2 §5.1", agreed: true },
+  { clause_number: "6",  clause_heading: "Limitation of Liability and Consequential Damages",         group_human_label: "High",   system_3tier_label: "High",   system_5tier_severity: "Critical", risk_score: 95, playbook_ref: "POL-LEGAL-2026-v4.2 §4.1", agreed: true },
+  { clause_number: "7",  clause_heading: "Confidentiality and Non-Disclosure",                        group_human_label: "Low",    system_3tier_label: "Low",    system_5tier_severity: "No Risk",  risk_score: 10, playbook_ref: "POL-LEGAL-2026-v4.2 §6.1", agreed: true },
+  { clause_number: "8",  clause_heading: "Data Privacy, Security Incident Notification and AI Training", group_human_label: "High", system_3tier_label: "High",  system_5tier_severity: "Critical", risk_score: 96, playbook_ref: "POL-SEC-2026-v3.1 §2.3",   agreed: true },
+  { clause_number: "9",  clause_heading: "Audit Rights and Regulatory Compliance",                    group_human_label: "Medium", system_3tier_label: "Medium", system_5tier_severity: "Medium",   risk_score: 46, playbook_ref: "POL-SEC-2026-v3.1 §5.2",   agreed: true },
+  { clause_number: "10", clause_heading: "Governing Law, Venue and Dispute Resolution",               group_human_label: "Medium", system_3tier_label: "Medium", system_5tier_severity: "Medium",   risk_score: 52, playbook_ref: "POL-LEGAL-2026-v4.2 §8.1", agreed: true }
+];

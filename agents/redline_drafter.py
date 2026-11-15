@@ -1,13 +1,5 @@
 """
 Agent 4: Redline Drafter Agent
-Responsibilities:
-- Generate replacement wording for every flagged clause.
-- Preserve the original business intent wherever possible.
-- Align suggested wording strictly with the company's internal playbook.
-- Consult Counterparty Negotiation-History Memory so repeat counterparties receive consistent redlines.
-- Clearly identify what should be removed, modified, or added (DiffOperation list).
-- Provide the rationale behind every proposed change.
-- Never invent company policies or legal requirements.
 """
 
 from __future__ import annotations
@@ -22,12 +14,6 @@ logger = logging.getLogger(__name__)
 
 
 class RedlineDrafterAgent:
-    """
-    Agent 4: Generates legally safer replacement wording for every flagged clause,
-    strictly grounded in the retrieved playbook reference's preferred wording template
-    and repeat-counterparty NegotiationHistoryMemory.
-    """
-
     AGENT_NAME = "RedlineDrafterAgent"
 
     def __init__(
@@ -61,7 +47,6 @@ class RedlineDrafterAgent:
 
         primary_ref = clause.retrieved_playbook_references[0]
 
-        # Consult Repeat Counterparty Negotiation-History Memory first
         precedent = None
         if self.negotiation_memory and self.counterparty_name:
             precedent = self.negotiation_memory.lookup_precedent(
@@ -91,7 +76,6 @@ class RedlineDrafterAgent:
                     f"The parties agree that {primary_ref.governing_policy_rule}"
                 )
             memory_note = ""
-            # Store newly drafted redline in negotiation memory for future contracts with this counterparty
             if self.negotiation_memory and self.counterparty_name:
                 self.negotiation_memory.record_agreed_redline(
                     counterparty_name=self.counterparty_name,

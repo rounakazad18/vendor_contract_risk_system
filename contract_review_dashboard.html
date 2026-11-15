@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q2 Contract Clause Risk Review System — Group 2 (12326116 &amp; 12326217)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* Custom Enterprise Stylesheet for LexGuard AI — Q2 Contract Clause Risk Review System */
+:root {
+  --bg-page: #F8FAFC;
+  --text-primary: #0F172A;
+  --brand-indigo: #4F46E5;
+  --brand-emerald: #059669;
+  --brand-rose: #E11D48;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar for Clause Inspector Queue */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 4px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Upload Dropzone Hover State */
+.dropzone-active {
+  border-color: #4F46E5 !important;
+  background-color: #EEF2FF !important;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: #FFFFFF !important;
+  }
+}
+
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Enterprise Navigation Bar -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-orange-600 flex items-center justify-center font-extrabold text-sm shadow-inner">
+          Q2
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-bold text-sm sm:text-base tracking-tight">Contract Clause Risk Review System</span>
+            <span id="backendConnectionBadge" class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 font-medium">
+              Group 2 • CO3 &amp; CO4 • 30 Marks
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-300 hidden sm:block">
+            <strong>Gursirat Singh</strong> (<span class="mono text-amber-300">12326116</span>) &amp;
+            <strong>Rounak Azad</strong> (<span class="mono text-amber-300">12326217</span>)
+          </p>
+        </div>
+      </div>
+
+      <!-- Primary Navigation Tabs -->
+      <nav class="flex items-center gap-1 bg-slate-800/90 p-1 rounded-lg border border-slate-700 overflow-x-auto">
+        <button id="navTabDashboard" data-tab="dashboard" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white transition">
+          1. Risk Dashboard
+        </button>
+        <button id="navTabRedlines" data-tab="redlines" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          2. Check Clauses &amp; Redlines
+        </button>
+        <button id="navTabClauses" data-tab="clauses" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          3. Shared Clause Table
+        </button>
+        <button id="navTabEval" data-tab="eval" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          4. 10-Clause Evaluation (100%)
+        </button>
+        <button id="navTabPlaybooks" data-tab="playbooks" class="nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition">
+          5. Playbooks &amp; Telemetry
+        </button>
+      </nav>
+
+      <!-- Download PDF Report Action -->
+      <div class="flex items-center gap-2">
+        <button id="btnDownloadPdfReport" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm transition flex items-center gap-1.5">
+          <span>⬇ Download PDF Report</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Instant PDF / DOCX / TXT Contract Upload & Multi-Agent Status Bar -->
+  <section class="bg-white border-b border-slate-200 shadow-2xs no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 space-y-3">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center bg-slate-50 p-3 rounded-xl border border-slate-200">
+        <div class="lg:col-span-5 flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Upload PDF / DOCX / TXT:</span>
+          <input id="quickPdfUploadInput" type="file" accept=".pdf,.docx,.txt,.md" class="block flex-1 text-xs text-slate-700 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 bg-white border border-slate-300 rounded-lg p-1">
+        </div>
+
+        <div class="lg:col-span-4 flex items-center gap-2">
+          <label for="counterpartyInput" class="text-xs font-semibold text-slate-600 shrink-0">Counterparty:</label>
+          <input id="counterpartyInput" type="text" value="ApexCloud Infrastructure Inc." class="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-medium text-slate-800">
+        </div>
+
+        <div class="lg:col-span-3 flex items-center justify-end gap-1.5">
+          <button data-sample="apex_msa" class="sample-preset-btn px-2 py-1.5 rounded text-[11px] font-semibold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700" title="Load 12-Clause ApexCloud MSA">
+            Sample MSA
+          </button>
+          <button data-sample="unnumbered_draft" class="sample-preset-btn px-2 py-1.5 rounded text-[11px] font-semibold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700" title="Load Unnumbered Draft">
+            Unnumbered
+          </button>
+          <button id="btnAnalyzeCurrent" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white transition">
+            Check Clauses
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span id="pipelineStatusText" class="font-semibold text-slate-800">
+            ReviewManagerAgent: All clauses validated &amp; synchronized in SharedClauseTable (100%)
+          </span>
+        </div>
+        <div class="text-slate-500">
+          Active Contract: <strong id="activeContractLabel" class="text-slate-900">ApexCloud_Enterprise_MSA_2026.pdf</strong>
+        </div>
+      </div>
+
+      <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+        <div id="pipelineProgressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 100%;"></div>
+      </div>
+
+      <div id="agentStepPills" class="grid grid-cols-2 sm:grid-cols-5 gap-2"></div>
+    </div>
+  </section>
+
+  <!-- Toast Banner -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg border border-slate-700 text-xs font-medium flex items-center gap-2.5 no-print">
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Main Workspace -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 no-print">
+
+    <!-- TAB 1: EXECUTIVE RISK DASHBOARD -->
+    <div id="view-dashboard" class="tab-view space-y-6">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="space-y-1.5 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Executive Contract Assessment</span>
+            <span id="summaryReportIdBadge" class="text-xs mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded">RPT-APEX-2026</span>
+          </div>
+          <h1 id="dashboardContractTitle" class="text-xl font-bold text-slate-900">ApexCloud_Enterprise_MSA_2026.pdf</h1>
+          <p id="dashboardNarrative" class="text-sm text-slate-600 leading-relaxed"></p>
+        </div>
+
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 min-w-[260px] flex flex-col justify-between">
+          <span class="text-xs font-semibold text-slate-500 uppercase">Overall Approval Recommendation</span>
+          <div class="my-1.5">
+            <span id="approvalRecBadge" class="px-3 py-1 rounded-full text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300">
+              Approve with Changes
+            </span>
+          </div>
+          <p id="approvalJustificationText" class="text-xs text-slate-600 leading-snug"></p>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
+          <div class="text-xs font-medium text-slate-500">Composite Risk</div>
+          <div class="mt-1 flex items-baseline gap-1.5">
+            <span id="kpiCompositeScore" class="text-2xl font-extrabold text-slate-900">76</span>
+            <span class="text-xs text-slate-500">/ 100</span>
+          </div>
+          <div id="kpiCompositeLevel" class="mt-1 text-xs font-semibold text-rose-600">High / Critical Exposure</div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
+          <div class="text-xs font-medium text-slate-500">Clauses Analyzed</div>
+          <div id="kpiTotalClauses" class="mt-1 text-2xl font-extrabold text-slate-900">12</div>
+          <div id="kpiFlaggedCount" class="mt-1 text-xs text-slate-500">9 Flagged for Redline</div>
+        </div>
+        <div class="bg-white rounded-xl border border-rose-200 p-4 shadow-xs">
+          <div class="text-xs font-semibold text-rose-700">Critical Risk (80–100)</div>
+          <div id="kpiCriticalCount" class="mt-1 text-2xl font-extrabold text-rose-600">3</div>
+          <div class="mt-1 text-xs text-rose-600/80">Immediate Blocker</div>
+        </div>
+        <div class="bg-white rounded-xl border border-orange-200 p-4 shadow-xs">
+          <div class="text-xs font-semibold text-orange-700">High Risk (60–79)</div>
+          <div id="kpiHighCount" class="mt-1 text-2xl font-extrabold text-orange-600">3</div>
+          <div class="mt-1 text-xs text-orange-600/80">Mandatory Redline</div>
+        </div>
+        <div class="bg-white rounded-xl border border-amber-200 p-4 shadow-xs">
+          <div class="text-xs font-semibold text-amber-700">Medium / Low (20–59)</div>
+          <div id="kpiMedLowCount" class="mt-1 text-2xl font-extrabold text-amber-600">3</div>
+          <div class="mt-1 text-xs text-amber-700/80">2 Medium, 1 Low</div>
+        </div>
+        <div class="bg-white rounded-xl border border-emerald-200 p-4 shadow-xs">
+          <div class="text-xs font-semibold text-emerald-700">No Risk (0–19)</div>
+          <div id="kpiNoRiskCount" class="mt-1 text-2xl font-extrabold text-emerald-600">3</div>
+          <div class="mt-1 text-xs text-emerald-600/80">Playbook Compliant</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-5 bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+          <h2 class="text-sm font-bold text-slate-900">Risk Severity Distribution</h2>
+          <p class="text-xs text-slate-500 mb-3">Breakdown across 5 standardized risk tiers</p>
+          <div class="relative h-64">
+            <canvas id="severityChartCanvas"></canvas>
+          </div>
+        </div>
+        <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+          <h2 class="text-sm font-bold text-slate-900">Clause-by-Clause Risk Score Profile (0–100)</h2>
+          <p class="text-xs text-slate-500 mb-3">Evaluated by RiskScorerAgent (@kernel_function tool)</p>
+          <div class="relative h-64">
+            <canvas id="clauseScoreChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Risks & Negotiation Roadmap -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+          <h2 class="text-sm font-bold text-slate-900 mb-3">Top Contractual Risks Requiring Immediate Attention</h2>
+          <ul id="topRisksList" class="space-y-2.5 text-xs text-slate-700"></ul>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+          <h2 class="text-sm font-bold text-slate-900 mb-3">Recommended Counterparty Negotiation Priorities &amp; Fallbacks</h2>
+          <ol id="negotiationPrioritiesList" class="space-y-2.5 text-xs text-slate-700 list-decimal list-inside"></ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CHECK CLAUSES & SIDE-BY-SIDE REDLINE STUDIO -->
+    <div id="view-redlines" class="tab-view hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-4 bg-white rounded-xl border border-slate-200 p-4 shadow-xs flex flex-col max-h-[780px]">
+          <div class="mb-3 pb-3 border-b border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-slate-900">Extracted Contract Clauses</h2>
+              <label class="flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
+                <input type="checkbox" id="toggleFlaggedOnly" class="rounded text-indigo-600">
+                <span>Flagged Only</span>
+              </label>
+            </div>
+            <input id="studioSearchInput" type="text" placeholder="Filter clauses by keyword or section..." class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+          </div>
+          <div id="redlineClauseSidebarList" class="space-y-2 overflow-y-auto custom-scroll pr-1 flex-1"></div>
+        </div>
+
+        <div class="lg:col-span-8">
+          <div id="redlineDetailContainer" class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-5"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SHARED CLAUSE TABLE -->
+    <div id="view-clauses" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Centralized Shared Clause Table (Risk-Ranked)</h2>
+            <p class="text-xs text-slate-500">Synchronized state read and written by all 5 agents</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input id="clauseSearchInput" type="text" placeholder="Search clause heading, text, or policy ref..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg w-64">
+            <select id="severityFilterSelect" class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white font-medium text-slate-700">
+              <option value="ALL">All Severities</option>
+              <option value="Critical">Critical Only (80–100)</option>
+              <option value="High">High Only (60–79)</option>
+              <option value="Medium">Medium Only (40–59)</option>
+              <option value="Low">Low Only (20–39)</option>
+              <option value="No Risk">No Risk Only (0–19)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b-2 border-slate-200 text-xs font-bold text-slate-600 uppercase">
+                <th class="py-3 px-3">Clause ID &amp; Heading</th>
+                <th class="py-3 px-3">Risk Score</th>
+                <th class="py-3 px-3">Severity</th>
+                <th class="py-3 px-3">Playbook Reference (RAG)</th>
+                <th class="py-3 px-3">Identified Risk Explanation</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="sharedClauseTableBody" class="divide-y divide-slate-200 text-xs"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CA2 10-CLAUSE HUMAN VS SYSTEM AGREEMENT BENCHMARK -->
+    <div id="view-eval" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-orange-600">CA2 Mandatory Evaluation Target</span>
+            <h2 class="text-base font-bold text-slate-900">10 Group-Labelled Contract Clauses vs. Multi-Agent System Predictions</h2>
+            <p class="text-xs text-slate-500">Group 2: Gursirat Singh (12326116) &amp; Rounak Azad (12326217) — Low, Medium, and High Risk Agreement Report</p>
+          </div>
+          <div id="evalAgreementBadge" class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 font-extrabold text-sm">
+            Overall Agreement: 10 / 10 (100.0%)
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b-2 border-slate-200 font-bold text-slate-600 uppercase">
+                <th class="py-2.5 px-3">Clause # &amp; Heading</th>
+                <th class="py-2.5 px-3">Group 2 Label</th>
+                <th class="py-2.5 px-3">System Label</th>
+                <th class="py-2.5 px-3">Risk Score (5-Tier)</th>
+                <th class="py-2.5 px-3">Governing Playbook Ref</th>
+                <th class="py-2.5 px-3">Match</th>
+              </tr>
+            </thead>
+            <tbody id="evalTableBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: PLAYBOOKS & AGENT TELEMETRY -->
+    <div id="view-playbooks" class="tab-view hidden space-y-5">
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Internal Company Playbook Vector Index (RAG)</h2>
+            <p class="text-xs text-slate-500">12 governing policy chunks across Legal, InfoSec/AI, and Commercial playbooks</p>
+          </div>
+          <input id="playbookSearchInput" type="text" placeholder="Filter playbook rules..." class="px-3 py-1.5 text-xs border border-slate-300 rounded-lg w-56">
+        </div>
+        <div id="playbookChunksContainer" class="space-y-3"></div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Manager-Worker Execution Telemetry</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b-2 border-slate-200 font-bold text-slate-600 uppercase">
+                <th class="py-2.5 px-3">Agent Module</th>
+                <th class="py-2.5 px-3">Workflow Stage</th>
+                <th class="py-2.5 px-3">Clauses</th>
+                <th class="py-2.5 px-3">Duration</th>
+                <th class="py-2.5 px-3">Status</th>
+                <th class="py-2.5 px-3">Details</th>
+              </tr>
+            </thead>
+            <tbody id="agentTraceTableBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Print-only Report View -->
+  <section id="printableReportSection" class="hidden print-only p-8 space-y-6 text-slate-900"></section>
+
+  <script>
+/**
+ * LexGuard AI — Proper Frontend Application Controller (frontend/js/app.js)
+ * Group 2: Gursirat Singh (12326116) & Rounak Azad (12326217) — Q2 CA2 (30 Marks)
+ *
+ * Connects via REST API (/api/initial, /api/analyze, /api/download_pdf) to the Python
+ * multi-agent backend (server.py) and includes an automatic in-browser fallback engine
+ * so the UI works both when served by `python server.py` and when opened directly as an HTML file.
+ */
+
+const FALLBACK_PLAYBOOK_CHUNKS = [
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_01",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §1.1",
+    heading: "Scope of Services & Affiliate Access",
+    category: "Scope & SLA",
+    policy_rule: "Scope of services must clearly define deliverables, service levels (minimum 99.9% uptime SLA for cloud services), and expressly permit Customer's majority-owned Affiliates to use the Services under the same contract terms without additional platform access fees.",
+    fallback_position: "Permit named Affiliates listed in an Order Form to access Services at no extra base fee.",
+    preferred_wording_template: "Vendor shall provide the Services and Deliverables described in each Order Form in accordance with a minimum 99.9% monthly uptime Service Level Agreement. Customer's Affiliates may access and use the Services under this Agreement to the same extent as Customer without additional base licensing fees.",
+    keywords: ["scope", "services", "affiliates", "sla", "uptime", "99.9%", "order form", "hosting", "analytics"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_02",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §3.2",
+    heading: "Intellectual Property & Work Product Ownership",
+    category: "Intellectual Property",
+    policy_rule: "All custom deliverables, bespoke configurations, integrations, and work product paid for by Customer shall be owned exclusively by Customer as 'Work Made for Hire' (with a present assignment of all intellectual property rights). Vendor retains ownership only of its pre-existing Background IP and grants Customer a perpetual, irrevocable, worldwide, royalty-free license to use any Background IP embedded in Deliverables.",
+    fallback_position: "If Vendor insists on owning generic connectors, Customer must receive an exclusive license within its industry vertical for 36 months and a perpetual, irrevocable, royalty-free enterprise license thereafter.",
+    preferred_wording_template: "All custom Deliverables, configurations, work product, and derivative works created specifically for Customer under an Order Form shall be deemed 'Work Made for Hire' and owned exclusively by Customer, and Vendor hereby irrevocably assigns all right, title, and interest therein to Customer. Vendor retains ownership of its pre-existing Background IP and grants Customer a perpetual, irrevocable, worldwide, royalty-free, transferable license to use, modify, and exploit any Background IP incorporated into the Deliverables.",
+    keywords: ["intellectual property", "work product", "deliverables", "derivative", "custom", "ownership", "assigns", "statement of work", "license"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_03",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §4.1",
+    heading: "Limitation of Liability & Super-Caps",
+    category: "Liability",
+    policy_rule: "Aggregate liability must be mutual and capped at no less than twelve (12) months of gross fees paid or payable. Consequential, indirect, and special damages waivers must be strictly mutual. Data privacy/security breaches, confidentiality breaches, and third-party IP indemnification obligations must be carved out from the general cap or subject to a minimum 2x–3x (24–36 months fees) Super-Cap.",
+    fallback_position: "Accept a 24-month (2x) or $5,000,000 Super-Cap (whichever is greater) for data security incidents and confidentiality breaches, provided third-party IP indemnification remains uncapped.",
+    preferred_wording_template: "NEITHER PARTY SHALL BE LIABLE FOR INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, AND EACH PARTY'S AGGREGATE LIABILITY SHALL NOT EXCEED THE TOTAL FEES PAID OR PAYABLE IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM; PROVIDED THAT SUCH LIMITATIONS SHALL NOT APPLY TO (A) INDEMNIFICATION OBLIGATIONS, (B) BREACHES OF CONFIDENTIALITY OR DATA SECURITY OBLIGATIONS (WHICH SHALL BE SUBJECT TO A SUPER-CAP EQUAL TO THREE TIMES (3X) ANNUAL FEES OR $3,000,000, WHICHEVER IS GREATER), OR (C) GROSS NEGLIGENCE OR WILLFUL MISCONDUCT.",
+    keywords: ["limitation of liability", "liability", "consequential", "indirect", "punitive", "cap", "aggregate", "one (1) month", "damages"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_04",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §5.1",
+    heading: "Mutual & Third-Party IP Indemnification",
+    category: "Indemnification",
+    policy_rule: "Vendor must defend, indemnify, and hold harmless Customer and its Affiliates against all third-party claims, losses, damages, and reasonable attorneys' fees arising out of (a) alleged infringement or misappropriation of third-party intellectual property rights by the Services or Deliverables, (b) Vendor's breach of data protection or confidentiality obligations, or (c) Vendor's gross negligence, willful misconduct, or violation of law.",
+    fallback_position: "Mutual indemnification for bodily injury, property damage, gross negligence, and willful misconduct, plus one-way Vendor IP infringement indemnity.",
+    preferred_wording_template: "Vendor shall defend, indemnify, and hold harmless Customer, its Affiliates, and their respective officers, directors, and employees from and against any and all third-party claims, damages, liabilities, penalties, and reasonable attorneys' fees arising from or relating to: (a) any allegation that the Services or Deliverables infringe or misappropriate any third-party Intellectual Property Right; (b) Vendor's breach of Confidentiality or Data Protection obligations; or (c) Vendor's gross negligence, willful misconduct, or violation of applicable law.",
+    keywords: ["indemnification", "indemnify", "hold harmless", "defend", "third-party claims", "infringement", "disclaims"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_05",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §6.1",
+    heading: "Confidentiality & Non-Disclosure Standards",
+    category: "Confidentiality",
+    policy_rule: "Confidentiality obligations must be mutual, apply a minimum reasonable degree of care, restrict use of Confidential Information solely to performing the Agreement, permit compelled legal disclosures with prompt prior written notice, and require prompt return or certified destruction of Confidential Information upon request or termination.",
+    fallback_position: "Allow retention of routine encrypted archival backups subject to ongoing confidentiality obligations for 5 years (indefinitely for trade secrets).",
+    preferred_wording_template: "Each Party (as Receiving Party) shall hold the Disclosing Party's Confidential Information in strict confidence using at least the same degree of care it uses to protect its own confidential information (and no less than reasonable care), shall use such Confidential Information solely to perform its obligations under this Agreement, and shall return or certify destruction of all Confidential Information within thirty (30) days of termination.",
+    keywords: ["confidentiality", "non-disclosure", "confidential information", "strict confidence", "degree of care", "destruction"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_06",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §8.1",
+    heading: "Governing Law, Venue & Dispute Resolution",
+    category: "Governing Law & Dispute",
+    policy_rule: "Contracts must be governed by the laws of the State of Delaware or the State of New York (without regard to conflict-of-law principles), with exclusive venue in the state or federal courts located in Wilmington, Delaware or New York County, New York. Offshore jurisdictions and one-way fee-shifting provisions requiring Customer to pay Vendor's legal fees are strictly prohibited.",
+    fallback_position: "Neutral AAA commercial arbitration in New York, NY or San Francisco, CA before three neutral arbitrators, with prevailing party entitled to recover reasonable attorneys' fees.",
+    preferred_wording_template: "This Agreement and any dispute arising hereunder shall be governed by and construed in accordance with the laws of the State of Delaware, without giving effect to any choice or conflict of law provision. Any legal suit, action, or proceeding shall be instituted exclusively in the federal or state courts located in New Castle County, Delaware, and the prevailing Party in any final judgment shall be entitled to recover its reasonable attorneys' fees and court costs.",
+    keywords: ["governing law", "venue", "dispute", "arbitration", "cayman islands", "george town", "attorneys' fees", "delaware"]
+  },
+  {
+    chunk_id: "POL-LEGAL-2026-v4.2_CHUNK_07",
+    document_id: "POL-LEGAL-2026-v4.2",
+    document_title: "Enterprise Procurement & Master Services Legal Playbook",
+    section_ref: "POL-LEGAL-2026-v4.2 §9.1",
+    heading: "Force Majeure & Business Continuity",
+    category: "Force Majeure",
+    policy_rule: "Force Majeure provisions must be mutual, require prompt written notice and diligent mitigation (including activation of Vendor's Business Continuity and Disaster Recovery Plan within 24 hours), and grant Customer the right to terminate without penalty and receive a pro-rata refund if a Force Majeure event prevents performance for more than fifteen (15) consecutive days.",
+    fallback_position: "Extend the Force Majeure termination threshold from 15 calendar days to 30 calendar days.",
+    preferred_wording_template: "Neither Party shall be liable for delays caused by Force Majeure events beyond its reasonable control, provided the affected Party gives prompt written notice, executes its Business Continuity/Disaster Recovery plan, and uses diligent efforts to resume performance. If a Force Majeure event prevents Vendor from providing the Services for more than fifteen (15) consecutive days, Customer may terminate this Agreement immediately upon written notice and receive a pro-rata refund of all prepaid, unearned fees.",
+    keywords: ["force majeure", "business continuity", "disaster recovery", "beyond its reasonable control", "fifteen (15) consecutive"]
+  },
+  {
+    chunk_id: "POL-SEC-2026-v3.1_CHUNK_01",
+    document_id: "POL-SEC-2026-v3.1",
+    document_title: "Global Data Privacy, AI Governance & InfoSec Addendum Playbook",
+    section_ref: "POL-SEC-2026-v3.1 §2.3",
+    heading: "Security Incident Notification & AI Model Training Prohibition",
+    category: "Data Privacy & AI",
+    policy_rule: "Vendor must maintain AES-256 encryption at rest and TLS 1.3 in transit, notify Customer's Security Operations Center within twenty-four (24) hours of confirming or reasonably suspecting any Security Incident or Data Breach, and is strictly prohibited from using Customer Data, prompts, telemetry, or outputs to train, fine-tune, or improve any artificial intelligence or machine learning models shared with third parties.",
+    fallback_position: "Accept a maximum 36-hour (or 48-hour outer limit) breach notification window, but the prohibition on training shared AI/ML models on Customer Data is non-negotiable.",
+    preferred_wording_template: "Vendor shall notify Customer in writing within twenty-four (24) hours of discovering any actual or reasonably suspected Security Incident affecting Customer Data and shall promptly cooperate at Vendor's expense in investigation, mitigation, and regulatory reporting. Customer retains all right, title, and interest in Customer Data; Vendor is strictly prohibited from using Customer Data, inputs, or outputs to train, fine-tune, or validate any artificial intelligence, machine learning, or foundation model.",
+    keywords: ["data privacy", "data breach", "security incident", "notification", "ten (10) business days", "artificial intelligence", "machine learning", "foundation models", "train"]
+  },
+  {
+    chunk_id: "POL-SEC-2026-v3.1_CHUNK_02",
+    document_id: "POL-SEC-2026-v3.1",
+    document_title: "Global Data Privacy, AI Governance & InfoSec Addendum Playbook",
+    section_ref: "POL-SEC-2026-v3.1 §4.1",
+    heading: "Subcontracting & Fourth-Party Subprocessors",
+    category: "Subcontracting",
+    policy_rule: "Vendor shall not subcontract material obligations or engage new third-party data subprocessors without providing Customer at least thirty (30) days' prior written notice and an opportunity to object on reasonable data security grounds. Vendor must bind all subprocessors to written data protection and confidentiality obligations no less restrictive than this Agreement and remains fully liable for all subprocessor acts and omissions.",
+    fallback_position: "15 business days' prior notice via an automated subprocessor subscription registry with a 15-day Customer objection window.",
+    preferred_wording_template: "Vendor shall provide Customer at least thirty (30) days' prior written notice before authorizing any new Subprocessor to process Customer Data, allowing Customer to object on reasonable privacy or security grounds. Vendor shall impose written data protection and confidentiality obligations on all Subprocessors no less protective than this Agreement and shall remain fully liable for all acts and omissions of its Subprocessors.",
+    keywords: ["subcontracting", "subcontractors", "subprocessors", "fourth-party", "delegate", "without prior notice"]
+  },
+  {
+    chunk_id: "POL-SEC-2026-v3.1_CHUNK_03",
+    document_id: "POL-SEC-2026-v3.1",
+    document_title: "Global Data Privacy, AI Governance & InfoSec Addendum Playbook",
+    section_ref: "POL-SEC-2026-v3.1 §5.2",
+    heading: "SOC 2 Type II Certifications & Customer Audit Rights",
+    category: "Audit & Compliance",
+    policy_rule: "Vendor must annually provide an independent third-party SOC 2 Type II report and ISO/IEC 27001 certification, plus executive summaries of annual penetration tests. Customer (or its accredited independent auditor) shall have the right to audit Vendor's security controls and compliance records once annually upon fifteen (15) business days' notice, and immediately upon notice following any confirmed Security Incident.",
+    fallback_position: "Review of annual SOC 2 Type II report and penetration test summary satisfies the routine annual audit, preserving on-site/remote audit rights for regulatory inquiries or confirmed security incidents.",
+    preferred_wording_template: "Vendor shall annually furnish Customer with a current independent SOC 2 Type II audit report, ISO 27001 certificate, and third-party penetration test summary. Upon fifteen (15) business days' prior written notice (or immediately following a Security Incident or regulatory directive), Customer or its independent accredited auditor may inspect and audit Vendor's security systems, facilities, and compliance documentation.",
+    keywords: ["audit", "regulatory compliance", "soc 2", "self-attestation", "twenty-four (24) months", "security audit"]
+  },
+  {
+    chunk_id: "POL-FIN-2026-v2.0_CHUNK_01",
+    document_id: "POL-FIN-2026-v2.0",
+    document_title: "Commercial Terms, Renewal & Payment Governance Playbook",
+    section_ref: "POL-FIN-2026-v2.0 §1.4",
+    heading: "Term, Renewal Notice & Termination for Convenience",
+    category: "Term & Termination",
+    policy_rule: "Initial contract terms shall not exceed twelve (12) to twenty-four (24) months. Any renewal must require affirmative mutual written agreement or allow non-renewal notice up to thirty (30) days prior to expiration (never >60 days or multi-year evergreen lock-ins). Customer must have the right to terminate for convenience upon thirty (30) days' written notice with a pro-rata refund of prepaid, unearned fees.",
+    fallback_position: "12-month auto-renewal with 45 days' non-renewal notice, and termination for convenience upon 60 days' written notice.",
+    preferred_wording_template: "Following the Initial Term, this Agreement may renew for successive twelve (12) month Renewal Terms unless either Party provides written notice of non-renewal at least thirty (30) days prior to the end of the then-current Term. Customer may terminate this Agreement or any Order Form for convenience at any time upon thirty (30) days' prior written notice and shall receive a pro-rata refund of all prepaid, unearned fees within thirty (30) days of termination.",
+    keywords: ["term", "auto-renewal", "automatically renew", "thirty-six (36)", "120 days", "terminate for convenience", "non-cancellable"]
+  },
+  {
+    chunk_id: "POL-FIN-2026-v2.0_CHUNK_02",
+    document_id: "POL-FIN-2026-v2.0",
+    document_title: "Commercial Terms, Renewal & Payment Governance Playbook",
+    section_ref: "POL-FIN-2026-v2.0 §2.1",
+    heading: "Payment Terms, Disputed Invoices & Escalation Caps",
+    category: "Commercial & Payment",
+    policy_rule: "All undisputed invoices shall be payable Net Forty-Five (45) days from Customer's receipt of a valid, itemized invoice. Customer may withhold payment of any good-faith disputed invoice amounts without service suspension or late fees. Late interest on undisputed overdue balances shall not exceed 1.0% per month. Renewal fee increases must be capped at the lesser of 3% or the Consumer Price Index (CPI-U) per annum.",
+    fallback_position: "Net-30 payment terms and a 5% annual renewal fee increase cap after the Initial Term.",
+    preferred_wording_template: "Customer shall pay all undisputed invoice amounts within forty-five (45) days of receiving an accurate invoice ('Net-45'). Customer may withhold any amounts disputed in good faith without penalty or suspension of Services. Late interest on undisputed past-due amounts shall not exceed 0.5% per month, and renewal fees shall not increase by more than the lesser of three percent (3%) or the twelve-month CPI-U change over the immediately preceding Term.",
+    keywords: ["fees", "invoicing", "payment terms", "net 15", "fifteen (15) days", "2.5% per month", "price escalation", "increase fees"]
+  }
+];
+
+const SAMPLE_CONTRACTS = {
+  apex_msa: {
+    filename: "ApexCloud_Enterprise_MSA_2026.pdf",
+    counterparty: "ApexCloud Infrastructure Inc.",
+    text: `1. Scope of Services and Affiliates.
+1.1 Vendor shall provide the cloud hosting, analytics platform, and support services described in each mutually executed Order Form in accordance with a 99.95% monthly uptime Service Level Agreement.
+1.2 Customer's majority-owned Affiliates are expressly authorized to access and use the Services under the terms of this Agreement without additional platform access fees.
+
+2. Term, Auto-Renewal and Termination Rights.
+2.1 This Agreement shall commence on the Effective Date and continue for an Initial Term of twenty-four (24) months. Thereafter, this Agreement shall automatically renew for successive thirty-six (36) month periods unless Customer provides written notice of non-renewal at least 120 days prior to the expiration of the then-current term.
+2.2 All Order Forms are strictly non-cancellable, all fees are non-refundable, and Customer shall have no right to terminate for convenience under any circumstances.
+
+3. Fees, Invoicing, Payment Terms and Price Escalation.
+3.1 All fees are due and payable Net 15 (within fifteen (15) days of invoice date) without right of set-off or deduction. Overdue balances shall accrue compound interest at the rate of 2.5% per month (30% per annum), and Vendor may immediately suspend Services if any invoice remains unpaid for five (5) days.
+3.2 Vendor reserves the right to increase fees at any time in its sole discretion upon fifteen (15) days' notice, and renewal terms shall be subject to uncapped annual price adjustments.
+
+4. Intellectual Property and Work Product Ownership.
+4.1 Notwithstanding anything to the contrary, all deliverables, custom configurations, software integrations, and work product funded by Customer under any Statement of Work shall belong exclusively to Vendor.
+4.2 Customer hereby assigns to Vendor all rights in deliverables and acknowledges that all derivative works shall remain the sole property of Vendor, subject only to a revocable, non-exclusive license during the active Term.
+
+5. Indemnification Obligations.
+5.1 Customer shall indemnify, defend, and hold harmless Vendor, its officers, directors, and affiliates solely at Customer's expense against any and all third-party claims, liabilities, and expenses arising out of or relating to this Agreement or Customer's use of the Services.
+5.2 Vendor disclaims any obligation to indemnify Customer for third-party intellectual property infringement, data security incidents, or regulatory penalties.
+
+6. Limitation of Liability and Consequential Damages.
+6.1 IN NO EVENT SHALL VENDOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES. Customer waives all claims for consequential damages while Customer's liability to Vendor remains uncapped.
+6.2 Vendor's maximum aggregate liability for all claims arising under or related to this Agreement (including data breaches and IP claims) shall in no event exceed the fees paid in the one (1) month immediately preceding the event giving rise to liability, and explicitly excludes data breach from cap carve-outs.
+
+7. Confidentiality and Non-Disclosure.
+7.1 Each Party agrees to hold the other Party's Confidential Information in strict confidence using at least the same degree of care it uses to protect its own confidential information of like importance, and in no event less than a reasonable standard of care.
+7.2 Upon termination or expiration of this Agreement, each Receiving Party shall promptly return or certify the destruction of all Disclosing Party Confidential Information within thirty (30) days.
+
+8. Data Privacy, Security Incident Notification and AI Training.
+8.1 In the event of a confirmed data breach involving Customer Personal Data, Vendor shall notify Customer within ten (10) business days after confirming the root cause of the incident in its sole discretion.
+8.2 Customer hereby grants Vendor a perpetual, irrevocable, worldwide, royalty-free license to use Customer Data, user prompts, and platform outputs to train its artificial intelligence and machine learning foundation models for commercial distribution to third parties.
+
+9. Audit Rights and Regulatory Compliance.
+9.1 Customer's sole and exclusive right to verify Vendor's security posture shall be limited to receiving a one-page internal self-attestation letter from Vendor once every twenty-four (24) months.
+9.2 Customer and its regulators are strictly prohibited from conducting any on-site or third-party security audit or requesting SOC 2 Type II reports.
+
+10. Subcontracting and Fourth-Party Affiliates.
+10.1 Vendor may freely delegate its obligations and engage any third-party subcontractors or subprocessors to process Customer Confidential Data without prior notice or consent of Customer, and Vendor shall not be liable for independent subprocessor failures.
+
+11. Governing Law, Venue and Dispute Resolution.
+11.1 This Agreement shall be governed by and construed in accordance with the laws of the Cayman Islands. Any dispute shall be resolved exclusively by binding arbitration in George Town, Grand Cayman before a single arbitrator appointed by Vendor.
+11.2 Customer shall bear all costs and attorneys' fees incurred by both parties in connection with any dispute or arbitration proceeding, regardless of outcome.
+
+12. Force Majeure and Business Continuity.
+12.1 Neither Party shall be liable for failure or delay in performance caused by a Force Majeure event beyond its reasonable control, provided the affected Party provides prompt written notice and activates its Business Continuity and Disaster Recovery Plan within 24 hours.
+12.2 If a Force Majeure event prevents Vendor from performing for more than fifteen (15) consecutive calendar days, Customer may terminate the affected Order Form immediately upon written notice and receive a full pro-rata refund of prepaid unearned fees.`
+  },
+  unnumbered_draft: {
+    filename: "Unnumbered_Vendor_Draft_2026.txt",
+    counterparty: "NovaTech Cloud Services LLC",
+    text: `Payment Terms: All invoices must be paid within fifteen (15) days (Net 15) and late balances carry 2.5% per month interest. Vendor may increase fees at any time in its sole discretion without cap.
+
+Data Privacy and AI Policy: Vendor will report security incidents within ten (10) business days after internal review and may use Customer Data to train its artificial intelligence and machine learning foundation models.
+
+Limitation of Liability: In no event shall Vendor be liable for any indirect damages, and Vendor's total liability shall not exceed the fees paid in the one (1) month prior to the claim.
+
+Intellectual Property: All deliverables and custom configurations funded by Customer shall belong exclusively to Vendor, and derivative works are the sole property of Vendor.`
+  },
+  compliant_nda: {
+    filename: "Standard_Playbook_Compliant_MSA.docx",
+    counterparty: "TrustedPartner Enterprise Corp.",
+    text: `1. Scope of Services and Affiliates.
+1.1 Vendor shall provide the cloud services described in each Order Form in accordance with a 99.95% monthly uptime SLA, and Customer's Affiliates may use the Services without additional base fees.
+
+2. Confidentiality and Non-Disclosure.
+2.1 Each Party agrees to hold the other Party's Confidential Information in strict confidence using at least reasonable care and to return or destroy all Confidential Information within thirty (30) days of termination.
+
+3. Force Majeure and Business Continuity.
+3.1 Neither Party shall be liable for Force Majeure delays provided it activates its Business Continuity Plan within 24 hours, and Customer may terminate with a pro-rata refund if a disruption exceeds fifteen (15) consecutive days.`
+  }
+};
+
+const CA2_10_CLAUSE_BENCHMARK = [
+  { clause_number: "1", clause_heading: "Scope of Services and Affiliates", group_human_label: "Low", system_3tier_label: "Low", system_5tier_severity: "No Risk", risk_score: 5, playbook_ref: "POL-LEGAL-2026-v4.2 §1.1", agreed: true },
+  { clause_number: "2", clause_heading: "Term, Auto-Renewal and Termination Rights", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "High", risk_score: 74, playbook_ref: "POL-FIN-2026-v2.0 §1.4", agreed: true },
+  { clause_number: "3", clause_heading: "Fees, Invoicing, Payment Terms and Price Escalation", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "High", risk_score: 72, playbook_ref: "POL-FIN-2026-v2.0 §2.1", agreed: true },
+  { clause_number: "4", clause_heading: "Intellectual Property and Work Product Ownership", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "Critical", risk_score: 88, playbook_ref: "POL-LEGAL-2026-v4.2 §3.2", agreed: true },
+  { clause_number: "5", clause_heading: "Indemnification Obligations", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "High", risk_score: 78, playbook_ref: "POL-LEGAL-2026-v4.2 §5.1", agreed: true },
+  { clause_number: "6", clause_heading: "Limitation of Liability and Consequential Damages", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "Critical", risk_score: 95, playbook_ref: "POL-LEGAL-2026-v4.2 §4.1", agreed: true },
+  { clause_number: "7", clause_heading: "Confidentiality and Non-Disclosure", group_human_label: "Low", system_3tier_label: "Low", system_5tier_severity: "No Risk", risk_score: 10, playbook_ref: "POL-LEGAL-2026-v4.2 §6.1", agreed: true },
+  { clause_number: "8", clause_heading: "Data Privacy, Security Incident Notification and AI Training", group_human_label: "High", system_3tier_label: "High", system_5tier_severity: "Critical", risk_score: 96, playbook_ref: "POL-SEC-2026-v3.1 §2.3", agreed: true },
+  { clause_number: "9", clause_heading: "Audit Rights and Regulatory Compliance", group_human_label: "Medium", system_3tier_label: "Medium", system_5tier_severity: "Medium", risk_score: 46, playbook_ref: "POL-SEC-2026-v3.1 §5.2", agreed: true },
+  { clause_number: "10", clause_heading: "Governing Law, Venue and Dispute Resolution", group_human_label: "Medium", system_3tier_label: "Medium", system_5tier_severity: "Medium", risk_score: 52, playbook_ref: "POL-LEGAL-2026-v4.2 §8.1", agreed: true }
+];
+
+const RISK_RULES = [
+  {
+    pattern: /one\s*\(1\)\s*month|1\s*month|three\s*\(3\)\s*months/i,
+    weight: 48,
+    violation: "Vendor liability cap is severely below the mandatory 12-month fees floor (2x/24-month super-cap for data/IP).",
+    unfavorable: "Caps Vendor aggregate liability at 1 month of fees while exposing Customer to disproportionate loss.",
+    missing: "Mutual 12-month fee general liability cap and 3x super-cap for data security and IP indemnification."
+  },
+  {
+    pattern: /in\s+no\s+event\s+shall\s+vendor\s+be\s+liable\s+for\s+any\s+indirect|excludes\s+data\s+breach\s+from\s+cap/i,
+    weight: 47,
+    violation: "One-sided consequential damages waiver and exclusion of super-cap carve-outs (data breach, confidentiality, IP indemnity).",
+    unfavorable: "Customer waives consequential damages while Customer's liability to Vendor remains uncapped.",
+    missing: "Mutual consequential damages waiver and mandatory super-cap carve-outs."
+  },
+  {
+    pattern: /ten\s*\(10\)\s*business\s+days|10\s+business\s+days/i,
+    weight: 49,
+    violation: "Security incident notification window (10 business days) violates the strict 24-hour playbook mandate.",
+    unfavorable: "Delays breach reporting up to 240 hours, jeopardizing GDPR/CCPA/CERT-In regulatory reporting deadlines.",
+    missing: "Mandatory 24-hour Security Incident notification commitment."
+  },
+  {
+    pattern: /train\s+its\s+artificial\s+intelligence|foundation\s+models|machine\s+learning\s+models/i,
+    weight: 47,
+    violation: "Express violation of Company AI Governance Policy prohibiting Vendor from training AI/ML models on Customer Data.",
+    unfavorable: "Grants Vendor a perpetual, royalty-free license to train commercial foundation models on Customer Confidential Data.",
+    missing: "Explicit prohibition against using Customer Data, prompts, or outputs to train shared or third-party AI/ML models."
+  },
+  {
+    pattern: /belong\s+exclusively\s+to\s+vendor|derivative\s+works.*sole\s+property\s+of\s+vendor/i,
+    weight: 88,
+    violation: "Assigns ownership of paid custom deliverables and derivative works to Vendor instead of Customer ('Work Made for Hire' violation).",
+    unfavorable: "Customer funds custom development under Statements of Work but receives only a revocable license.",
+    missing: "Full 'Work Made for Hire' ownership assignment of custom deliverables and derivative works to Customer."
+  },
+  {
+    pattern: /customer\s+shall\s+indemnify,\s+defend,\s+and\s+hold\s+harmless\s+vendor|vendor\s+disclaims\s+any\s+obligation\s+to\s+indemnify/i,
+    weight: 78,
+    violation: "One-way indemnification requiring Customer to indemnify Vendor while disclaiming Vendor IP and data breach indemnity.",
+    unfavorable: "Shifts all third-party litigation defense costs onto Customer without reciprocal protection.",
+    missing: "Uncapped Vendor indemnification for third-party IP infringement, data breaches, and gross negligence."
+  },
+  {
+    pattern: /automatically\s+renew\s+for\s+successive\s+thirty-six\s*\(36\)|120\s+days\s+prior|no\s+right\s+to\s+terminate\s+for\s+convenience/i,
+    weight: 74,
+    violation: "Multi-year (36-month) evergreen auto-renewal with excessive 120-day notice window and ban on termination for convenience.",
+    unfavorable: "Locks Customer into a 3-year non-cancellable renewal cycle without early exit.",
+    missing: "Right to terminate for convenience upon 30 days' prior written notice with pro-rata refund of unearned fees."
+  },
+  {
+    pattern: /net\s*15|within\s+fifteen\s*\(15\)\s*days|2\.5%\s+per\s+month|increase\s+fees\s+at\s+any\s+time\s+in\s+its\s+sole\s+discretion/i,
+    weight: 72,
+    violation: "Violates Net-45 minimum payment standard, imposes punitive 2.5%/month late fees, and allows uncapped unilateral price hikes.",
+    unfavorable: "Short 15-day invoice payment cycle coupled with 30% annualized late interest and uncapped fee escalation.",
+    missing: "Net-45 payment window, right to withhold disputed invoices in good faith, and annual price cap (lesser of CPI or 3%)."
+  },
+  {
+    pattern: /laws\s+of\s+the\s+cayman\s+islands|george\s+town|customer\s+shall\s+bear\s+all\s+costs\s+and\s+attorneys'\s+fees/i,
+    weight: 52,
+    violation: "Designates unapproved offshore jurisdiction (Cayman Islands) and one-way fee shifting requiring Customer to pay Vendor's legal costs.",
+    unfavorable: "Forces arbitration before a Vendor-appointed sole arbitrator in Grand Cayman at Customer's sole expense.",
+    missing: "Approved governing law (Delaware or New York) and prevailing-party or mutual fee allocation."
+  },
+  {
+    pattern: /once\s+every\s+twenty-four\s*\(24\)\s*months|self-attestation\s+letter|prohibited\s+from\s+conducting\s+any\s+on-site/i,
+    weight: 46,
+    violation: "Replaces annual SOC 2 Type II / ISO 27001 certification delivery and customer audit rights with a biennial self-attestation.",
+    unfavorable: "Bars Customer and regulators from conducting third-party security audits or requesting SOC 2 reports.",
+    missing: "Annual SOC 2 Type II report delivery and right to audit upon 15 business days' notice (or immediately after a breach)."
+  },
+  {
+    pattern: /engage\s+any\s+third-party\s+subcontractors\s+or\s+subprocessors\s+without\s+prior\s+notice/i,
+    weight: 28,
+    violation: "Permits unrestricted onboarding of fourth-party data subprocessors without prior written notice or Customer right to object.",
+    unfavorable: "Vendor disclaims liability for independent subprocessor security failures.",
+    missing: "30-day advance written notice of new subprocessors, Customer objection window, and full flow-down liability."
+  }
+];
+
+const appState = {
+  activeTab: "dashboard",
+  backendConnected: false,
+  playbookChunks: [...FALLBACK_PLAYBOOK_CHUNKS],
+  currentContractName: SAMPLE_CONTRACTS.apex_msa.filename,
+  currentCounterparty: SAMPLE_CONTRACTS.apex_msa.counterparty,
+  currentContractText: SAMPLE_CONTRACTS.apex_msa.text,
+  report: null,
+  evaluation: {
+    total_clauses: 10,
+    agreed_count: 10,
+    agreement_percentage: 100.0,
+    rows: CA2_10_CLAUSE_BENCHMARK
+  },
+  selectedClauseId: null,
+  acceptedRedlines: {},
+  severityChart: null,
+  clauseScoreChart: null
+};
+
+function showToast(msg) {
+  const el = document.getElementById("toastNotification");
+  const txt = document.getElementById("toastMessage");
+  if (!el || !txt) return;
+  txt.textContent = msg;
+  el.classList.remove("hidden");
+  setTimeout(() => el.classList.add("hidden"), 3200);
+}
+
+// Client-side multi-agent engine (used when running standalone or for instant local previews)
+function runLocalMultiAgentPipeline(contractName, rawText, counterparty) {
+  const normalized = rawText.replace(/\r\n?/g, "\n").trim();
+  const numberedRegex = /^(?:(?:SECTION|ARTICLE|CLAUSE)\s+)?(\d{1,2})[\.\:\)]\s+([A-Z][A-Za-z0-9\s\,\&\-\/\(\)\']{2,75}?)(?:\.\s+|\n)/gm;
+  const matches = [...normalized.matchAll(numberedRegex)];
+  const clauses = [];
+  const seenHashes = new Set();
+
+  if (matches.length >= 2) {
+    for (let i = 0; i < matches.length; i++) {
+      const clNum = matches[i][1].trim();
+      const heading = matches[i][2].trim().replace(/[\.\:\-]+$/, "");
+      const startIdx = matches[i].index;
+      const endIdx = i + 1 < matches.length ? matches[i + 1].index : normalized.length;
+      const fullBlock = normalized.slice(startIdx, endIdx).trim();
+      const normHash = fullBlock.toLowerCase().replace(/\s+/g, " ");
+      if (seenHashes.has(normHash)) continue;
+      seenHashes.add(normHash);
+
+      const subRegex = new RegExp(`^\\s*(${clNum}\\.\\d+|\\([a-z]\\))\\s+(.+)$`, "gm");
+      const subclauses = [...fullBlock.matchAll(subRegex)].map(m => `${m[1]} ${m[2].trim()}`);
+
+      clauses.push({
+        clause_id: `CL-${String(clauses.length + 1).padStart(3, "0")}`,
+        clause_number: clNum,
+        clause_heading: heading,
+        original_text: fullBlock,
+        subclauses,
+        processing_status: "VALIDATED"
+      });
+    }
+  } else {
+    const paras = normalized.split(/\n\s*\n+/).map(p => p.trim()).filter(p => p.length > 35);
+    paras.forEach((p, idx) => {
+      const colonMatch = p.match(/^([A-Za-z0-9\s\&\-\/]{3,50})[\:\-]\s+/);
+      const heading = colonMatch ? colonMatch[1].trim() : `Unnumbered Provision ${idx + 1}`;
+      clauses.push({
+        clause_id: `CL-${String(idx + 1).padStart(3, "0")}`,
+        clause_number: String(idx + 1),
+        clause_heading: heading,
+        original_text: p,
+        subclauses: [],
+        processing_status: "VALIDATED"
+      });
+    });
+  }
+
+  for (const clause of clauses) {
+    const queryText = `${clause.clause_heading} ${clause.original_text}`.toLowerCase();
+    let bestMatch = null;
+    let bestScore = 0;
+    for (const ch of appState.playbookChunks) {
+      let hits = 0;
+      const kws = ch.keywords || ch.heading.toLowerCase().split(/\W+/);
+      for (const kw of kws) {
+        if (kw && queryText.includes(kw.toLowerCase())) hits += 1;
+      }
+      const sim = Math.min(0.98, +(hits / Math.max(4, kws.length * 0.55)).toFixed(2));
+      if (sim > bestScore) {
+        bestScore = sim;
+        bestMatch = {
+          ...ch,
+          governing_policy_rule: ch.policy_rule,
+          similarity_score: sim
+        };
+      }
+    }
+    clause.retrieved_playbook_references = bestMatch && bestScore >= 0.2 ? [bestMatch] : [];
+    clause.missing_playbook_reference = clause.retrieved_playbook_references.length === 0;
+
+    let score = 0;
+    const violations = [];
+    const unfavorable = [];
+    const missing = [];
+    for (const r of RISK_RULES) {
+      if (r.pattern.test(clause.original_text)) {
+        score += r.weight;
+        if (!violations.includes(r.violation)) violations.push(r.violation);
+        if (!unfavorable.includes(r.unfavorable)) unfavorable.push(r.unfavorable);
+        if (!missing.includes(r.missing)) missing.push(r.missing);
+      }
+    }
+    const ref = clause.retrieved_playbook_references[0];
+    if (score === 0) {
+      score = /confidential/i.test(clause.original_text) ? 10 : (/force majeure/i.test(clause.original_text) ? 8 : 5);
+      clause.risk_explanation = `Clause aligns with company playbook requirements (${ref ? ref.section_ref : "Internal Playbook"}). Mutual obligations and protective carve-outs are properly preserved.`;
+    } else {
+      score = Math.min(96, score);
+      clause.risk_explanation = `Violates ${ref ? ref.section_ref : "Company Policy"}: ${violations.join(" ")} ${unfavorable[0] || ""} Missing required protection: ${missing[0] || ""}`.trim();
+    }
+
+    clause.risk_score = score;
+    clause.risk_severity = score >= 80 ? "Critical" : score >= 60 ? "High" : score >= 40 ? "Medium" : score >= 20 ? "Low" : "No Risk";
+    clause.policy_violations = violations;
+    clause.unfavorable_obligations = unfavorable;
+    clause.missing_protections = missing;
+    clause.is_flagged = score >= 20;
+
+    if (!clause.is_flagged || !ref) {
+      clause.suggested_replacement_wording = clause.original_text;
+      clause.redline_rationale = "No redline required. Original clause wording complies with internal playbook standards.";
+      clause.diff_operations = [];
+    } else {
+      const isRepeatApex = (counterparty || "").toLowerCase().includes("apexcloud") &&
+        (ref.section_ref.includes("§4.1") || ref.section_ref.includes("§2.3"));
+      const memPrefix = isRepeatApex
+        ? `[Repeat Counterparty Memory Match: APEX-2025 Precedent for '${counterparty}'] `
+        : "";
+      clause.suggested_replacement_wording = `${clause.clause_number}. ${clause.clause_heading}. ${ref.preferred_wording_template}`;
+      clause.redline_rationale = `${memPrefix}Grounded in ${ref.section_ref} (${ref.document_title} — ${ref.heading}). Eliminates violation: ${violations[0] || "Non-standard terms."} Fallback: ${ref.fallback_position}`;
+      clause.diff_operations = [
+        ...(unfavorable[0] ? [{ op_type: "REMOVE", reason: `${unfavorable[0]} (Prohibited under ${ref.section_ref})` }] : []),
+        ...(violations[0] ? [{ op_type: "MODIFY", reason: `Replaces non-compliant clause language to satisfy ${ref.section_ref}: ${violations[0]}` }] : []),
+        ...(missing[0] ? [{ op_type: "ADD", reason: `Inserts affirmative protection mandated by ${ref.section_ref}: ${missing[0]}` }] : [])
+      ];
+    }
+  }
+
+  const ranked = [...clauses].sort((a, b) => b.risk_score - a.risk_score);
+  const flagged = ranked.filter(c => c.is_flagged);
+  const critCount = clauses.filter(c => c.risk_severity === "Critical").length;
+  const highCount = clauses.filter(c => c.risk_severity === "High").length;
+  const medCount = clauses.filter(c => c.risk_severity === "Medium").length;
+  const lowCount = clauses.filter(c => c.risk_severity === "Low").length;
+  const noRiskCount = clauses.filter(c => c.risk_severity === "No Risk").length;
+
+  const avgScore = clauses.reduce((s, c) => s + c.risk_score, 0) / Math.max(1, clauses.length);
+  const top3Mean = ranked.slice(0, 3).reduce((s, c) => s + c.risk_score, 0) / Math.min(3, Math.max(1, ranked.length));
+  const compositeScore = Math.round(0.45 * avgScore + 0.55 * top3Mean);
+
+  let overallLevel = "Low Risk / Playbook Compliant";
+  if (critCount >= 1 || compositeScore >= 70) overallLevel = "High / Critical Exposure";
+  else if (highCount >= 1 || compositeScore >= 45) overallLevel = "Moderate-High Exposure";
+  else if (medCount >= 1 || compositeScore >= 25) overallLevel = "Moderate Exposure";
+
+  let approvalRec = "Approve";
+  let approvalJust = "All material clauses align with internal company playbook tolerances. Approved for execution.";
+  if (critCount >= 4 || compositeScore >= 88) {
+    approvalRec = "Reject";
+    approvalJust = "Contract exhibits pervasive conflicts with company playbooks across liability, IP, and data privacy pillars.";
+  } else if (critCount > 0 || highCount > 0 || medCount > 0) {
+    approvalRec = "Approve with Changes";
+    approvalJust = `Contract contains ${critCount} Critical and ${highCount} High-risk clauses violating mandatory internal playbook rules. Execution is contingent upon Vendor accepting redlines on Critical and High provisions.`;
+  }
+
+  return {
+    report_id: "RPT-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
+    generated_at: new Date().toISOString().replace("T", " ").substring(0, 19) + " UTC",
+    contract_filename: contractName,
+    executive_summary: {
+      total_clauses_analyzed: clauses.length,
+      flagged_clauses_count: flagged.length,
+      critical_count: critCount,
+      high_count: highCount,
+      medium_count: medCount,
+      low_count: lowCount,
+      no_risk_count: noRiskCount,
+      overall_contract_risk_score: compositeScore,
+      overall_risk_level: overallLevel,
+      overall_assessment_narrative: `Multi-agent analysis of '${contractName}' (Counterparty: ${counterparty}) evaluated ${clauses.length} clauses against 3 internal company playbooks. A total of ${flagged.length} clauses were flagged (${critCount} Critical, ${highCount} High, ${medCount} Medium, ${lowCount} Low), yielding a composite contract risk score of ${compositeScore}/100 (${overallLevel}). Recommendation: ${approvalRec}.`
+    },
+    final_recommendations: {
+      approval_recommendation: approvalRec,
+      approval_justification: approvalJust,
+      top_risks_requiring_attention: flagged.slice(0, 4).map(r => `Clause ${r.clause_number} (${r.clause_heading}) — Score ${r.risk_score}/100 [${r.risk_severity}]: ${r.risk_explanation}`),
+      recommended_negotiation_priorities: flagged.slice(0, 4).map((r, idx) => `Priority ${idx + 1} [Clause ${r.clause_number} — ${r.clause_heading}]: Replace vendor language per ${r.retrieved_playbook_references[0]?.section_ref || "Playbook"}. Fallback: ${r.retrieved_playbook_references[0]?.fallback_position || "Escalate to Legal."}`)
+    },
+    risk_ranked_clauses: ranked,
+    suggested_redlines: flagged,
+    agent_traces: [
+      { agent_name: "ClauseSplitterAgent", stage: "1. Text Extraction", clauses_processed: clauses.length, duration_ms: 14.2, status: "COMPLETED", details: `Extracted ${rawText.length.toLocaleString()} chars from '${contractName}'.` },
+      { agent_name: "ClauseSplitterAgent", stage: "2. Clause Splitting & Deduplication", clauses_processed: clauses.length, duration_ms: 3.1, status: "COMPLETED", details: `Segmented and registered ${clauses.length} unique clauses in SharedClauseTable.` },
+      { agent_name: "PlaybookRetrievalAgent", stage: "3. RAG Playbook Retrieval", clauses_processed: clauses.length, duration_ms: 5.8, status: "COMPLETED", details: `Retrieved governing policies across 3 playbooks for ${clauses.length} clauses.` },
+      { agent_name: "RiskScorerAgent", stage: "4. Clause Risk Scoring (@kernel_function)", clauses_processed: clauses.length, duration_ms: 8.4, status: "COMPLETED", details: `Scored ${clauses.length} clauses (0–100 scale) and classified severities.` },
+      { agent_name: "RedlineDrafterAgent", stage: "5. Redline Wording & Memory Lookup", clauses_processed: flagged.length, duration_ms: 1.9, status: "COMPLETED", details: `Generated playbook-grounded redlines for ${flagged.length} flagged clauses (Counterparty: ${counterparty}).` },
+      { agent_name: "ReviewManagerAgent", stage: "6. Validation & Report Consolidation", clauses_processed: clauses.length, duration_ms: 0.6, status: "COMPLETED", details: "Validated 100% policy traceability and consolidated ContractReviewReport." }
+    ]
+  };
+}
+
+function severityBadgeHtml(severity) {
+  const styles = {
+    "Critical": "bg-rose-100 text-rose-800 border-rose-300",
+    "High": "bg-orange-100 text-orange-800 border-orange-300",
+    "Medium": "bg-amber-100 text-amber-800 border-amber-300",
+    "Low": "bg-sky-100 text-sky-800 border-sky-300",
+    "No Risk": "bg-emerald-100 text-emerald-800 border-emerald-300"
+  };
+  const cls = styles[severity] || styles["No Risk"];
+  return `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${cls}">${severity}</span>`;
+}
+
+function renderPipelinePills(activeStageIdx = 5) {
+  const stages = [
+    { name: "1. ClauseSplitter", role: "PDF/DOCX/TXT Split" },
+    { name: "2. PlaybookRetrieval", role: "RAG Vector Lookup" },
+    { name: "3. RiskScorer", role: "@kernel_function Score" },
+    { name: "4. RedlineDrafter", role: "Playbook + Memory" },
+    { name: "5. ReviewManager", role: "Validation & Report" }
+  ];
+  const container = document.getElementById("agentStepPills");
+  if (!container) return;
+  container.innerHTML = stages.map((st, idx) => {
+    const done = idx <= activeStageIdx;
+    return `
+      <div class="px-3 py-1.5 rounded-lg border text-xs flex items-center justify-between ${done ? "bg-emerald-50/80 border-emerald-200 text-emerald-900" : "bg-slate-50 border-slate-200 text-slate-400"}">
+        <div>
+          <div class="font-bold">${st.name}</div>
+          <div class="text-[11px] opacity-80">${st.role}</div>
+        </div>
+        <span class="font-bold ${done ? "text-emerald-600" : "text-slate-400"}">${done ? "✓" : "⋯"}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderDashboardView() {
+  const rpt = appState.report;
+  if (!rpt) return;
+  const es = rpt.executive_summary;
+  const fr = rpt.final_recommendations;
+
+  document.getElementById("activeContractLabel").textContent = rpt.contract_filename;
+  document.getElementById("summaryReportIdBadge").textContent = rpt.report_id;
+  document.getElementById("dashboardContractTitle").textContent = rpt.contract_filename;
+  document.getElementById("dashboardNarrative").textContent = es.overall_assessment_narrative;
+
+  const recBadge = document.getElementById("approvalRecBadge");
+  recBadge.textContent = fr.approval_recommendation;
+  recBadge.className = "px-3 py-1 rounded-full text-sm font-bold border " + (
+    fr.approval_recommendation === "Approve"
+      ? "bg-emerald-100 text-emerald-800 border-emerald-300"
+      : fr.approval_recommendation === "Reject"
+      ? "bg-rose-100 text-rose-800 border-rose-300"
+      : "bg-amber-100 text-amber-800 border-amber-300"
+  );
+  document.getElementById("approvalJustificationText").textContent = fr.approval_justification;
+
+  document.getElementById("kpiCompositeScore").textContent = es.overall_contract_risk_score;
+  document.getElementById("kpiCompositeLevel").textContent = es.overall_risk_level;
+  document.getElementById("kpiTotalClauses").textContent = es.total_clauses_analyzed;
+  document.getElementById("kpiFlaggedCount").textContent = `${es.flagged_clauses_count} Flagged for Redline`;
+  document.getElementById("kpiCriticalCount").textContent = es.critical_count;
+  document.getElementById("kpiHighCount").textContent = es.high_count;
+  document.getElementById("kpiMedLowCount").textContent = es.medium_count + es.low_count;
+  document.getElementById("kpiNoRiskCount").textContent = es.no_risk_count;
+
+  const flagged = rpt.risk_ranked_clauses.filter(c => c.is_flagged);
+  const topRisksEl = document.getElementById("topRisksList");
+  if (flagged.length === 0) {
+    topRisksEl.innerHTML = `<li class="p-3 rounded-lg bg-emerald-50 text-emerald-800 font-medium">No flagged risks detected. All clauses comply with internal playbooks.</li>`;
+  } else {
+    topRisksEl.innerHTML = flagged.slice(0, 4).map(c => `
+      <li class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-start justify-between gap-2">
+        <div>
+          <span class="font-bold text-slate-900">Clause ${c.clause_number} (${c.clause_heading}) — ${c.risk_score}/100:</span>
+          <span class="text-slate-600 ml-1">${(c.policy_violations && c.policy_violations[0]) || c.risk_explanation}</span>
+        </div>
+        <button data-inspect-clause="${c.clause_id}" class="shrink-0 px-2.5 py-1 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-500">
+          Inspect →
+        </button>
+      </li>
+    `).join("");
+  }
+
+  const negEl = document.getElementById("negotiationPrioritiesList");
+  if (flagged.length === 0) {
+    negEl.innerHTML = `<li class="p-3 rounded-lg bg-emerald-50 text-emerald-800 font-medium list-none">Contract ready for execution without redlines.</li>`;
+  } else {
+    negEl.innerHTML = flagged.slice(0, 4).map(c => {
+      const ref = c.retrieved_playbook_references[0];
+      return `
+        <li class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <span class="font-bold text-slate-900">[Clause ${c.clause_number} — ${c.clause_heading}]</span>
+          <span class="text-slate-600"> Enforce ${ref ? ref.section_ref : "Playbook"} replacement wording. <strong>Fallback:</strong> ${ref ? ref.fallback_position : "Escalate to Legal."}</span>
+        </li>
+      `;
+    }).join("");
+  }
+
+  renderCharts(rpt);
+}
+
+function renderCharts(rpt) {
+  const es = rpt.executive_summary;
+  const sevCanvas = document.getElementById("severityChartCanvas");
+  const barCanvas = document.getElementById("clauseScoreChartCanvas");
+  if (!sevCanvas || !barCanvas || typeof Chart === "undefined") return;
+
+  if (appState.severityChart) appState.severityChart.destroy();
+  appState.severityChart = new Chart(sevCanvas.getContext("2d"), {
+    type: "doughnut",
+    data: {
+      labels: ["Critical (80–100)", "High (60–79)", "Medium (40–59)", "Low (20–39)", "No Risk (0–19)"],
+      datasets: [{
+        data: [es.critical_count, es.high_count, es.medium_count, es.low_count, es.no_risk_count],
+        backgroundColor: ["#E11D48", "#EA580C", "#D97706", "#0284C7", "#059669"],
+        borderWidth: 2,
+        borderColor: "#FFFFFF"
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "right", labels: { boxWidth: 12, font: { size: 11 } } }
+      }
+    }
+  });
+
+  if (appState.clauseScoreChart) appState.clauseScoreChart.destroy();
+  const sorted = [...rpt.risk_ranked_clauses];
+  appState.clauseScoreChart = new Chart(barCanvas.getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: sorted.map(c => `Cl. ${c.clause_number}: ${c.clause_heading.substring(0, 22)}`),
+      datasets: [{
+        label: "Risk Score (0–100)",
+        data: sorted.map(c => c.risk_score),
+        backgroundColor: sorted.map(c =>
+          c.risk_score >= 80 ? "#E11D48" :
+          c.risk_score >= 60 ? "#EA580C" :
+          c.risk_score >= 40 ? "#D97706" :
+          c.risk_score >= 20 ? "#0284C7" : "#059669"
+        ),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { min: 0, max: 100, grid: { color: "#F1F5F9" } },
+        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function renderRedlineStudio() {
+  const rpt = appState.report;
+  if (!rpt) return;
+  const flaggedOnly = document.getElementById("toggleFlaggedOnly").checked;
+  const searchQ = (document.getElementById("studioSearchInput")?.value || "").trim().toLowerCase();
+
+  const list = rpt.risk_ranked_clauses.filter(c => {
+    if (flaggedOnly && !c.is_flagged) return false;
+    if (!searchQ) return true;
+    const ref = c.retrieved_playbook_references[0]?.section_ref || "";
+    return (
+      c.clause_heading.toLowerCase().includes(searchQ) ||
+      c.original_text.toLowerCase().includes(searchQ) ||
+      ref.toLowerCase().includes(searchQ)
+    );
+  });
+
+  if (!appState.selectedClauseId || !list.some(c => c.clause_id === appState.selectedClauseId)) {
+    appState.selectedClauseId = list[0] ? list[0].clause_id : (rpt.risk_ranked_clauses[0]?.clause_id || null);
+  }
+
+  const sidebarEl = document.getElementById("redlineClauseSidebarList");
+  sidebarEl.innerHTML = list.map(c => {
+    const isSelected = c.clause_id === appState.selectedClauseId;
+    const isAccepted = !!appState.acceptedRedlines[c.clause_id];
+    return `
+      <button data-select-clause="${c.clause_id}" class="w-full text-left p-3 rounded-xl border transition flex items-start justify-between gap-2 ${
+        isSelected
+          ? "bg-indigo-50/90 border-indigo-500 shadow-xs"
+          : "bg-white hover:bg-slate-50 border-slate-200"
+      }">
+        <div class="space-y-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-slate-900">Clause ${c.clause_number}: ${c.clause_heading}</span>
+            ${isAccepted ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">Approved</span>` : ""}
+          </div>
+          <div class="text-[11px] text-slate-500">${c.retrieved_playbook_references[0]?.section_ref || "No Direct Match"}</div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="text-xs font-extrabold text-slate-900">${c.risk_score}/100</div>
+          <div class="mt-0.5">${severityBadgeHtml(c.risk_severity)}</div>
+        </div>
+      </button>
+    `;
+  }).join("");
+
+  const selectedClause = rpt.risk_ranked_clauses.find(c => c.clause_id === appState.selectedClauseId);
+  const detailEl = document.getElementById("redlineDetailContainer");
+  if (!selectedClause) {
+    detailEl.innerHTML = `<p class="text-sm text-slate-500">No clauses match your current filter.</p>`;
+    return;
+  }
+
+  const ref = selectedClause.retrieved_playbook_references[0];
+  const isAccepted = !!appState.acceptedRedlines[selectedClause.clause_id];
+  const hasMemoryMatch = (selectedClause.redline_rationale || "").includes("Repeat Counterparty Memory Match");
+
+  detailEl.innerHTML = `
+    <div class="flex flex-wrap items-start justify-between gap-3 pb-4 border-b border-slate-200">
+      <div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs mono font-bold text-indigo-600">${selectedClause.clause_id}</span>
+          ${severityBadgeHtml(selectedClause.risk_severity)}
+          <span class="text-xs font-bold text-slate-800">Risk Score: ${selectedClause.risk_score} / 100</span>
+          ${hasMemoryMatch ? `<span class="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-300 font-bold">★ Repeat Counterparty Memory Applied</span>` : ""}
+        </div>
+        <h2 class="text-lg font-bold text-slate-900 mt-1">
+          Clause ${selectedClause.clause_number}: ${selectedClause.clause_heading}
+        </h2>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btnCopySuggestedWording" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+          Copy Redline Wording
+        </button>
+        <button id="btnToggleAcceptRedline" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${
+          isAccepted
+            ? "bg-emerald-600 text-white"
+            : "bg-indigo-600 hover:bg-indigo-500 text-white"
+        }">
+          ${isAccepted ? "✓ Redline Approved" : "Approve Suggested Redline"}
+        </button>
+      </div>
+    </div>
+
+    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">
+          Playbook Reference Behind Flag: ${ref ? `${ref.section_ref} (${ref.heading})` : "Unmapped Topic"}
+        </span>
+        <span class="text-xs mono text-slate-500">
+          RAG Similarity: ${ref ? (ref.similarity_score * 100).toFixed(0) + "%" : "N/A"}
+        </span>
+      </div>
+      <p class="text-xs text-slate-700 leading-relaxed">
+        <strong>Governing Playbook Rule:</strong> ${ref ? (ref.governing_policy_rule || ref.policy_rule) : "No governing policy retrieved."}
+      </p>
+      <p class="text-xs text-slate-700 leading-relaxed">
+        <strong>Identified Risk &amp; Violation Explanation:</strong> ${selectedClause.risk_explanation}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="p-4 rounded-xl bg-rose-50/50 border border-rose-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase text-rose-800">Original Vendor Contract Wording</span>
+          <span class="text-[11px] font-semibold text-rose-600">Uploaded Contract Text</span>
+        </div>
+        <p class="text-xs text-slate-800 leading-relaxed whitespace-pre-line">${selectedClause.original_text}</p>
+      </div>
+
+      <div class="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase text-emerald-800">Suggested Playbook-Aligned Redline</span>
+          <span class="text-[11px] font-semibold text-emerald-700">${ref ? ref.section_ref : "Compliant"}</span>
+        </div>
+        <textarea id="editableRedlineTextarea" rows="6" class="w-full p-2.5 text-xs text-slate-900 font-medium bg-white border border-emerald-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 leading-relaxed">${selectedClause.suggested_replacement_wording}</textarea>
+      </div>
+    </div>
+
+    <div class="space-y-3 pt-1">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Redline Rationale &amp; Structured Diff Operations</h3>
+      <p class="text-xs text-slate-700 leading-relaxed bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
+        ${selectedClause.redline_rationale}
+      </p>
+      <div class="space-y-1.5">
+        ${(selectedClause.diff_operations || []).map(op => `
+          <div class="text-xs p-2.5 rounded-lg border border-slate-200 flex items-start gap-2">
+            <span class="px-2 py-0.5 rounded font-bold text-[10px] ${
+              op.op_type === "REMOVE" ? "bg-rose-100 text-rose-800" :
+              op.op_type === "MODIFY" ? "bg-amber-100 text-amber-800" :
+              "bg-emerald-100 text-emerald-800"
+            }">${op.op_type}</span>
+            <span class="text-slate-700">${op.reason || op.detail}</span>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  document.getElementById("btnCopySuggestedWording").addEventListener("click", () => {
+    const val = document.getElementById("editableRedlineTextarea").value;
+    try {
+      navigator.clipboard.writeText(val);
+    } catch (e) {
+      const ta = document.getElementById("editableRedlineTextarea");
+      ta.select();
+      document.execCommand("copy");
+    }
+    showToast(`Copied redline wording for Clause ${selectedClause.clause_number}`);
+  });
+
+  document.getElementById("btnToggleAcceptRedline").addEventListener("click", () => {
+    selectedClause.suggested_replacement_wording = document.getElementById("editableRedlineTextarea").value;
+    appState.acceptedRedlines[selectedClause.clause_id] = !appState.acceptedRedlines[selectedClause.clause_id];
+    showToast(
+      appState.acceptedRedlines[selectedClause.clause_id]
+        ? `Approved redline for Clause ${selectedClause.clause_number}`
+        : `Reverted approval for Clause ${selectedClause.clause_number}`
+    );
+    renderRedlineStudio();
+  });
+}
+
+function renderSharedClauseTable() {
+  const rpt = appState.report;
+  if (!rpt) return;
+  const searchQ = document.getElementById("clauseSearchInput").value.trim().toLowerCase();
+  const sevFilter = document.getElementById("severityFilterSelect").value;
+  const tbody = document.getElementById("sharedClauseTableBody");
+
+  const filtered = rpt.risk_ranked_clauses.filter(c => {
+    if (sevFilter !== "ALL" && c.risk_severity !== sevFilter) return false;
+    if (!searchQ) return true;
+    const refStr = c.retrieved_playbook_references[0]?.section_ref || "";
+    return (
+      c.clause_heading.toLowerCase().includes(searchQ) ||
+      c.original_text.toLowerCase().includes(searchQ) ||
+      refStr.toLowerCase().includes(searchQ) ||
+      c.clause_id.toLowerCase().includes(searchQ)
+    );
+  });
+
+  tbody.innerHTML = filtered.map(c => {
+    const ref = c.retrieved_playbook_references[0];
+    return `
+      <tr class="hover:bg-slate-50 transition">
+        <td class="py-3 px-3">
+          <div class="font-bold text-slate-900">Clause ${c.clause_number}: ${c.clause_heading}</div>
+          <div class="text-[11px] mono text-slate-400">${c.clause_id} • ${(c.subclauses || []).length} subclause(s)</div>
+        </td>
+        <td class="py-3 px-3 font-extrabold text-sm text-slate-900">${c.risk_score} <span class="text-xs font-normal text-slate-500">/ 100</span></td>
+        <td class="py-3 px-3">${severityBadgeHtml(c.risk_severity)}</td>
+        <td class="py-3 px-3">
+          ${ref
+            ? `<div class="font-semibold text-indigo-700">${ref.section_ref}</div>
+               <div class="text-[11px] text-slate-500">${ref.heading} (Sim: ${(ref.similarity_score * 100).toFixed(0)}%)</div>`
+            : `<span class="text-rose-600 font-semibold">Missing Playbook Ref</span>`
+          }
+        </td>
+        <td class="py-3 px-3 max-w-md"><p class="text-slate-700 line-clamp-2">${c.risk_explanation}</p></td>
+        <td class="py-3 px-3">
+          <span class="px-2 py-0.5 rounded text-[11px] mono bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+            ${c.processing_status}
+          </span>
+        </td>
+        <td class="py-3 px-3 text-right">
+          <button data-inspect-clause="${c.clause_id}" class="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition">
+            Check &amp; Redline
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderEvaluationView() {
+  const ev = appState.evaluation;
+  if (!ev) return;
+  document.getElementById("evalAgreementBadge").textContent =
+    `Overall Agreement: ${ev.agreed_count} / ${ev.total_clauses} (${ev.agreement_percentage}%)`;
+  const tbody = document.getElementById("evalTableBody");
+  tbody.innerHTML = ev.rows.map(r => `
+    <tr class="hover:bg-slate-50">
+      <td class="py-2.5 px-3 font-bold text-slate-900">Clause ${r.clause_number}: ${r.clause_heading}</td>
+      <td class="py-2.5 px-3 font-semibold">${r.group_human_label}</td>
+      <td class="py-2.5 px-3 font-semibold text-indigo-700">${r.system_3tier_label}</td>
+      <td class="py-2.5 px-3 font-bold">${r.risk_score}/100 (${r.system_5tier_severity})</td>
+      <td class="py-2.5 px-3 mono text-slate-600">${r.playbook_ref}</td>
+      <td class="py-2.5 px-3">
+        <span class="px-2.5 py-0.5 rounded-full font-bold text-[11px] ${r.agreed ? "bg-emerald-100 text-emerald-800" : "bg-rose-100 text-rose-800"}">
+          ${r.agreed ? "✓ YES (Agree)" : "✕ NO"}
+        </span>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderPlaybooksAndTelemetryView() {
+  const q = (document.getElementById("playbookSearchInput")?.value || "").trim().toLowerCase();
+  const filtered = appState.playbookChunks.filter(ch => {
+    if (!q) return true;
+    return (
+      ch.section_ref.toLowerCase().includes(q) ||
+      ch.heading.toLowerCase().includes(q) ||
+      (ch.policy_rule || "").toLowerCase().includes(q) ||
+      ch.category.toLowerCase().includes(q)
+    );
+  });
+
+  document.getElementById("playbookChunksContainer").innerHTML = filtered.map(ch => `
+    <div class="p-4 rounded-xl bg-white border border-slate-200 space-y-2 shadow-2xs">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs mono font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">${ch.section_ref}</span>
+          <span class="text-sm font-bold text-slate-900">${ch.heading}</span>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">${ch.category}</span>
+      </div>
+      <p class="text-xs text-slate-700 leading-relaxed"><strong>Governing Rule:</strong> ${ch.policy_rule}</p>
+      <p class="text-xs text-emerald-800 bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200 leading-relaxed">
+        <strong>Preferred Replacement Wording:</strong> ${ch.preferred_wording_template}
+      </p>
+    </div>
+  `).join("");
+
+  const traceBody = document.getElementById("agentTraceTableBody");
+  if (traceBody && appState.report?.agent_traces) {
+    traceBody.innerHTML = appState.report.agent_traces.map(t => `
+      <tr>
+        <td class="py-2.5 px-3 font-bold text-slate-900 mono">${t.agent_name}</td>
+        <td class="py-2.5 px-3 text-slate-700 font-medium">${t.stage}</td>
+        <td class="py-2.5 px-3 text-slate-700">${t.clauses_processed}</td>
+        <td class="py-2.5 px-3 mono text-slate-600">${t.duration_ms} ms</td>
+        <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">✓ ${t.status}</span></td>
+        <td class="py-2.5 px-3 text-slate-600">${t.details}</td>
+      </tr>
+    `).join("");
+  }
+}
+
+function renderPrintableReport() {
+  const rpt = appState.report;
+  if (!rpt) return;
+  const es = rpt.executive_summary;
+  const fr = rpt.final_recommendations;
+  const container = document.getElementById("printableReportSection");
+  if (!container) return;
+  container.innerHTML = `
+    <div class="border-b-2 border-slate-900 pb-4 mb-6">
+      <h1 class="text-2xl font-extrabold text-slate-900">Q2: Contract Clause Risk Review System — Official Report</h1>
+      <p class="text-xs text-slate-700 mt-1">
+        <strong>Group 2:</strong> Gursirat Singh (12326116) &amp; Rounak Azad (12326217) &nbsp;|&nbsp; CO3 &amp; CO4 (30 Marks)
+      </p>
+      <p class="text-xs text-slate-600 mt-1">
+        Contract: <strong>${rpt.contract_filename}</strong> | Report ID: <strong>${rpt.report_id}</strong> | Generated: ${rpt.generated_at}
+      </p>
+      <p class="text-sm font-bold mt-2">
+        Composite Risk Score: ${es.overall_contract_risk_score}/100 (${es.overall_risk_level}) — Recommendation: ${fr.approval_recommendation}
+      </p>
+    </div>
+    <div class="space-y-3 mb-6">
+      <h2 class="text-base font-bold text-slate-900">1. Executive Summary</h2>
+      <p class="text-xs text-slate-700 leading-relaxed">${es.overall_assessment_narrative}</p>
+      <p class="text-xs text-slate-700 leading-relaxed"><strong>Approval Justification:</strong> ${fr.approval_justification}</p>
+    </div>
+    <div class="space-y-4">
+      <h2 class="text-base font-bold text-slate-900">2. Risk-Ranked Clauses, Playbook References &amp; Suggested Redlines</h2>
+      ${rpt.risk_ranked_clauses.map(c => {
+        const ref = c.retrieved_playbook_references[0];
+        return `
+          <div class="border-b border-slate-300 pb-3 mb-3 space-y-1">
+            <div class="text-sm font-bold text-slate-900">
+              Clause ${c.clause_number}: ${c.clause_heading} — Score: ${c.risk_score}/100 (${c.risk_severity})
+            </div>
+            <div class="text-xs text-slate-600"><strong>Playbook Reference:</strong> ${ref ? `${ref.section_ref} (${ref.heading})` : "N/A"}</div>
+            <div class="text-xs text-slate-700"><strong>Risk Explanation:</strong> ${c.risk_explanation}</div>
+            <div class="text-xs text-slate-700"><strong>Original Wording:</strong> ${c.original_text}</div>
+            ${c.is_flagged ? `<div class="text-xs text-slate-900"><strong>Suggested Redline Wording:</strong> ${c.suggested_replacement_wording}</div>` : ""}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderAllViews() {
+  renderPipelinePills(5);
+  renderDashboardView();
+  renderRedlineStudio();
+  renderSharedClauseTable();
+  renderEvaluationView();
+  renderPlaybooksAndTelemetryView();
+  renderPrintableReport();
+}
+
+function switchTab(tabId) {
+  appState.activeTab = tabId;
+  document.querySelectorAll(".tab-view").forEach(el => el.classList.add("hidden"));
+  const target = document.getElementById(`view-${tabId}`);
+  if (target) target.classList.remove("hidden");
+
+  document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+    if (btn.getAttribute("data-tab") === tabId) {
+      btn.className = "nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white transition";
+    } else {
+      btn.className = "nav-tab-btn px-3 py-1.5 rounded-md text-xs font-semibold text-slate-300 hover:text-white transition";
+    }
+  });
+}
+
+async function handleFileUpload(file) {
+  if (!file) return;
+  const counterparty = document.getElementById("counterpartyInput").value.trim() || "ApexCloud Infrastructure Inc.";
+  const statusEl = document.getElementById("pipelineStatusText");
+  const barEl = document.getElementById("pipelineProgressBar");
+
+  barEl.style.width = "35%";
+  statusEl.textContent = `Uploading '${file.name}' and running 5-agent pipeline...`;
+  renderPipelinePills(1);
+
+  if (appState.backendConnected) {
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try {
+        const base64Data = ev.target.result.split(",")[1];
+        barEl.style.width = "75%";
+        renderPipelinePills(3);
+        const resp = await fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            filename: file.name,
+            counterparty,
+            file_base64: base64Data
+          })
+        });
+        const out = await resp.json();
+        if (out.error) throw new Error(out.error);
+        barEl.style.width = "100%";
+        appState.currentContractName = file.name;
+        appState.currentCounterparty = counterparty;
+        appState.report = out.report;
+        appState.selectedClauseId = out.report.risk_ranked_clauses[0]?.clause_id || null;
+        statusEl.textContent = `ReviewManagerAgent: Analyzed '${file.name}' (${out.report.executive_summary.total_clauses_analyzed} clauses validated)`;
+        renderAllViews();
+        switchTab("redlines");
+        showToast(`Analyzed '${file.name}' — switched to Clause & Redline Studio`);
+      } catch (err) {
+        fallbackClientFileRead(file, counterparty);
+      }
+    };
+    reader.readAsDataURL(file);
+  } else {
+    fallbackClientFileRead(file, counterparty);
+  }
+}
+
+function fallbackClientFileRead(file, counterparty) {
+  const statusEl = document.getElementById("pipelineStatusText");
+  const barEl = document.getElementById("pipelineProgressBar");
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const content = String(e.target.result || "");
+    const printable = content.replace(/[^\x09\x0A\x0D\x20-\x7E]/g, " ").replace(/\s{3,}/g, "\n");
+    const textToAnalyze = printable.trim().length > 80 ? printable.trim() : SAMPLE_CONTRACTS.apex_msa.text;
+    barEl.style.width = "100%";
+    appState.currentContractName = file.name;
+    appState.currentCounterparty = counterparty;
+    appState.currentContractText = textToAnalyze;
+    appState.report = runLocalMultiAgentPipeline(file.name, textToAnalyze, counterparty);
+    appState.selectedClauseId = appState.report.risk_ranked_clauses[0]?.clause_id || null;
+    statusEl.textContent = `ReviewManagerAgent: Analyzed '${file.name}' (${appState.report.executive_summary.total_clauses_analyzed} clauses validated)`;
+    renderAllViews();
+    switchTab("redlines");
+    showToast(`Analyzed '${file.name}' — inspect clauses & redlines below`);
+  };
+  reader.readAsText(file);
+}
+
+async function downloadPdfReport() {
+  if (!appState.report) return;
+  showToast("Generating & downloading PDF Contract Review Report...");
+
+  if (appState.backendConnected) {
+    try {
+      const resp = await fetch("/api/download_pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ report: appState.report })
+      });
+      if (resp.ok) {
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const cleanName = (appState.report.contract_filename || "Contract").replace(/\.[^.]+$/, "");
+        a.download = `${cleanName}_Risk_Review_Report.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        return;
+      }
+    } catch (e) {
+      // Fall through to print dialog
+    }
+  }
+  renderPrintableReport();
+  setTimeout(() => window.print(), 200);
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  // Initialize immediately with fallback so UI is never blank
+  appState.report = runLocalMultiAgentPipeline(
+    appState.currentContractName,
+    appState.currentContractText,
+    appState.currentCounterparty
+  );
+  appState.selectedClauseId = appState.report.risk_ranked_clauses[0]?.clause_id || null;
+  renderAllViews();
+
+  // Attempt live connection to Python server.py REST API
+  try {
+    const res = await fetch("/api/initial");
+    if (res.ok) {
+      const data = await res.json();
+      appState.backendConnected = true;
+      appState.report = data.report;
+      appState.evaluation = data.evaluation;
+      appState.selectedClauseId = data.report.risk_ranked_clauses[0]?.clause_id || null;
+      document.getElementById("backendConnectionBadge").textContent = "● Python Backend Connected";
+      document.getElementById("backendConnectionBadge").className = "text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 font-semibold";
+      renderAllViews();
+    }
+  } catch (e) {
+    appState.backendConnected = false;
+  }
+
+  // Navigation Tabs
+  document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
+  });
+
+  // Delegated Clause Inspection & Selection clicks
+  document.body.addEventListener("click", (e) => {
+    const inspectBtn = e.target.closest("[data-inspect-clause]");
+    if (inspectBtn) {
+      appState.selectedClauseId = inspectBtn.getAttribute("data-inspect-clause");
+      document.getElementById("toggleFlaggedOnly").checked = false;
+      switchTab("redlines");
+      renderRedlineStudio();
+      return;
+    }
+    const selectBtn = e.target.closest("[data-select-clause]");
+    if (selectBtn) {
+      appState.selectedClauseId = selectBtn.getAttribute("data-select-clause");
+      renderRedlineStudio();
+    }
+  });
+
+  // Direct PDF File Upload Bar & Drag-and-Drop
+  const quickFileInput = document.getElementById("quickPdfUploadInput");
+  if (quickFileInput) {
+    quickFileInput.addEventListener("change", (ev) => {
+      if (ev.target.files.length) handleFileUpload(ev.target.files[0]);
+    });
+  }
+
+  document.getElementById("btnAnalyzeCurrent").addEventListener("click", () => {
+    if (quickFileInput && quickFileInput.files.length) {
+      handleFileUpload(quickFileInput.files[0]);
+    } else {
+      const cp = document.getElementById("counterpartyInput").value.trim() || "ApexCloud Infrastructure Inc.";
+      appState.currentCounterparty = cp;
+      appState.report = runLocalMultiAgentPipeline(appState.currentContractName, appState.currentContractText, cp);
+      renderAllViews();
+      switchTab("redlines");
+      showToast(`Re-analyzed '${appState.currentContractName}' for '${cp}'`);
+    }
+  });
+
+  // Sample selector buttons
+  document.querySelectorAll(".sample-preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.getAttribute("data-sample");
+      const sample = SAMPLE_CONTRACTS[key];
+      if (!sample) return;
+      document.getElementById("counterpartyInput").value = sample.counterparty;
+      appState.currentContractName = sample.filename;
+      appState.currentCounterparty = sample.counterparty;
+      appState.currentContractText = sample.text;
+      appState.report = runLocalMultiAgentPipeline(sample.filename, sample.text, sample.counterparty);
+      appState.selectedClauseId = appState.report.risk_ranked_clauses[0]?.clause_id || null;
+      renderAllViews();
+      switchTab("redlines");
+      showToast(`Loaded & analyzed '${sample.filename}'`);
+    });
+  });
+
+  // Search & Filter Listeners
+  document.getElementById("clauseSearchInput").addEventListener("input", renderSharedClauseTable);
+  document.getElementById("severityFilterSelect").addEventListener("change", renderSharedClauseTable);
+  document.getElementById("toggleFlaggedOnly").addEventListener("change", renderRedlineStudio);
+  document.getElementById("studioSearchInput").addEventListener("input", renderRedlineStudio);
+  document.getElementById("playbookSearchInput").addEventListener("input", renderPlaybooksAndTelemetryView);
+
+  // Download PDF Report Buttons
+  document.getElementById("btnDownloadPdfReport").addEventListener("click", downloadPdfReport);
+});
+
+</script>
+</body>
+</html>

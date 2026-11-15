@@ -1,13 +1,16 @@
 """
 Sample Company Playbook Documents and Sample Vendor Contracts (TXT, DOCX, PDF, and Unnumbered).
-Supports multiple playbook documents for RAG indexing and demonstration.
 """
 
 from __future__ import annotations
 import os
 from typing import Dict, List, Tuple
-import docx
-from docx.shared import Inches, Pt
+try:
+    import docx
+    from docx.shared import Inches, Pt
+except ImportError:
+    docx = None
+    Inches = Pt = None
 from vector_store import PlaybookVectorStore
 
 
@@ -175,16 +178,11 @@ Liability Limitation: In no event shall Vendor be liable for any indirect damage
 
 
 def _write_text_pdf(pdf_path: str, text: str) -> None:
-    """
-    Writes a valid standard PDF-1.4 file with a Helvetica text stream so pdfplumber
-    and pypdf can extract all clauses without requiring external CLI dependencies.
-    """
     lines: List[str] = []
     for raw_line in text.splitlines():
         if not raw_line.strip():
             lines.append("")
             continue
-        # Wrap at 95 chars while preserving line starts for clause numbers
         words = raw_line.split(" ")
         cur = ""
         for w in words:
@@ -196,9 +194,7 @@ def _write_text_pdf(pdf_path: str, text: str) -> None:
         if cur:
             lines.append(cur)
 
-    # Split into pages of 48 lines each
     pages_lines = [lines[i : i + 48] for i in range(0, len(lines), 48)] or [[""]]
-
     objects: List[bytes] = []
 
     def add_obj(body: bytes) -> int:
@@ -275,10 +271,6 @@ def populate_default_vector_store() -> PlaybookVectorStore:
 
 
 def generate_sample_contract_files(output_dir: str) -> Dict[str, str]:
-    """
-    Writes sample vendor contracts in .txt, .docx, .pdf, and unnumbered .txt formats
-    so tests and the CLI can exercise every supported format.
-    """
     os.makedirs(output_dir, exist_ok=True)
     txt_path = os.path.join(output_dir, "ApexCloud_Enterprise_MSA_2026.txt")
     with open(txt_path, "w", encoding="utf-8") as f:
@@ -289,21 +281,25 @@ def generate_sample_contract_files(output_dir: str) -> Dict[str, str]:
         f.write(UNNUMBERED_POORLY_FORMATTED_CONTRACT_TXT)
 
     docx_path = os.path.join(output_dir, "ApexCloud_Enterprise_MSA_2026.docx")
-    doc = docx.Document()
-    for section in doc.sections:
-        section.top_margin = Inches(1.0)
-        section.bottom_margin = Inches(1.0)
-        section.left_margin = Inches(1.0)
-        section.right_margin = Inches(1.0)
-    style_normal = doc.styles["Normal"]
-    style_normal.font.name = "Calibri"
-    style_normal.font.size = Pt(11)
+    if docx is not None:
+        doc = docx.Document()
+        for section in doc.sections:
+            section.top_margin = Inches(1.0)
+            section.bottom_margin = Inches(1.0)
+            section.left_margin = Inches(1.0)
+            section.right_margin = Inches(1.0)
+        style_normal = doc.styles["Normal"]
+        style_normal.font.name = "Calibri"
+        style_normal.font.size = Pt(11)
 
-    for block in SAMPLE_VENDOR_CONTRACT_TXT.strip().split("\n\n"):
-        p = doc.add_paragraph(block.strip())
-        p.paragraph_format.space_after = Pt(8)
-        p.paragraph_format.line_spacing = 1.15
-    doc.save(docx_path)
+        for block in SAMPLE_VENDOR_CONTRACT_TXT.strip().split("\n\n"):
+            p = doc.add_paragraph(block.strip())
+            p.paragraph_format.space_after = Pt(8)
+            p.paragraph_format.line_spacing = 1.15
+        doc.save(docx_path)
+    else:
+        with open(docx_path, "wb") as f:
+            f.write(b"")
 
     pdf_path = os.path.join(output_dir, "ApexCloud_Enterprise_MSA_2026.pdf")
     _write_text_pdf(pdf_path, SAMPLE_VENDOR_CONTRACT_TXT)

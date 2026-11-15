@@ -1,7 +1,5 @@
 """
 Report Generator Module
-Compiles a ContractReviewReport into a clean, print-ready HTML document following
-Archetype 1 (Continuous Flow) for PDF rendering via Chromium, as well as JSON/Markdown exports.
 """
 
 from __future__ import annotations
@@ -14,15 +12,9 @@ def _esc(val: str) -> str:
 
 
 def generate_report_html(report: ContractReviewReport) -> str:
-    """
-    Produces a publication-grade Archetype 1 (Continuous Flow) HTML document
-    strictly following the PDF design rules (no container borders/boxes/pills,
-    clean booktabs tables, 10pt body floor, 9.5pt table floor, strict two-tone palette).
-    """
     es = report.executive_summary
     fr = report.final_recommendations
 
-    # Build Risk-Ranked Clause Table rows
     ranked_rows_html = []
     for cl in report.risk_ranked_clauses:
         primary_ref = (
@@ -60,7 +52,6 @@ def generate_report_html(report: ContractReviewReport) -> str:
             """
         )
 
-    # Build Detailed Clause & Redline Comparison Sections (continuous flow paragraphs for organic pagination)
     redline_sections_html = []
     for cl in report.suggested_redlines:
         primary_ref_obj = (
@@ -100,7 +91,6 @@ def generate_report_html(report: ContractReviewReport) -> str:
             """
         )
 
-    # Compliant clauses summary rows
     compliant_clauses = [c for c in report.risk_ranked_clauses if not c.is_flagged]
     compliant_rows_html = []
     for cl in compliant_clauses:
@@ -120,7 +110,6 @@ def generate_report_html(report: ContractReviewReport) -> str:
             """
         )
 
-    # Agent Execution Trace rows
     trace_rows_html = []
     for tr in report.agent_traces:
         trace_rows_html.append(
@@ -189,8 +178,6 @@ def generate_report_html(report: ContractReviewReport) -> str:
     }}
 
     main.document-flow {{ width: 100%; margin: 0; padding: 0; }}
-
-    /* Universal reset per pdf-processing Archetype 1 */
     * {{ border: none; border-radius: 0; box-shadow: none; background: transparent; outline: none; }}
 
     h1 {{ font-family: 'Inter', 'Noto Sans', sans-serif; font-size: 18.5pt; line-height: 1.25; margin: 0 0 6px 0; color: #FFFFFF; }}
@@ -217,6 +204,7 @@ def generate_report_html(report: ContractReviewReport) -> str:
   <main class="document-flow">
     <div class="full-bleed-header">
       <h1>Multi-Agent Vendor Contract Risk Review Report</h1>
+      <p>Group 2: <strong>Gursirat Singh (12326116)</strong> &amp; <strong>Rounak Azad (12326217)</strong> &nbsp;|&nbsp; Q2 CA2 (CO3 &amp; CO4 — 30 Marks)</p>
       <p>Contract: <strong>{_esc(report.contract_filename)}</strong> &nbsp;|&nbsp; Report ID: <strong>{_esc(report.report_id)}</strong> &nbsp;|&nbsp; Generated: {_esc(report.generated_at)}</p>
       <p>Overall Contract Risk Score: <strong>{es.overall_contract_risk_score}/100 ({_esc(es.overall_risk_level)})</strong> &nbsp;|&nbsp; Recommendation: <strong>{_esc(fr.approval_recommendation.value)}</strong></p>
     </div>

@@ -1,14 +1,34 @@
-# Byte-compiled / optimized / DLL files
+# ==========================================
+# Git Ignore Configuration
+# Project: Vendor Contract Risk Review System
+# ==========================================
+
+# --- Virtual Environments & Envs ---
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Node / Frontend Dependencies ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+.npm/
+
+# --- Python Cache & Bytecode ---
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -26,23 +46,41 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# --- Testing & Coverage ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.pyre/
+.mypy_cache/
+.ruff_cache/
 
-# Streamlit session & cache
-.streamlit/secrets.toml
-
-# IDE files
-.vscode/
+# --- IDEs & Code Editors ---
 .idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
 *.swp
 *.swo
-.DS_Store
+*~
 
-# Temporary outputs (keep reports if desired, or ignore)
+# --- Operating System Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# --- Generated Reports, Temp Files & Logs ---
+*.log
+*.tmp
+*.temp
+data/generated_samples/
+`*.pdf

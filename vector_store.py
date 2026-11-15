@@ -1,19 +1,16 @@
 """
 RAG Vector Database & Embedding Engine for Internal Company Playbooks.
-Supports indexing multiple playbook documents, chunking, hybrid lexical + semantic
-domain concept embeddings, and cosine similarity search with strict source provenance.
 """
 
 from __future__ import annotations
 import math
 import re
 from collections import Counter
-from typing import Dict, List, Tuple
+from typing import Dict, List
 import numpy as np
 from schemas import PlaybookChunk, PlaybookReference
 
 
-# Legal domain concept synsets to give dense semantic concept dimensions alongside TF-IDF n-grams
 LEGAL_CONCEPT_CLUSTERS: Dict[str, List[str]] = {
     "CONCEPT_LIABILITY": [
         "liability", "cap", "consequential", "indirect", "punitive", "special",
@@ -79,18 +76,12 @@ STOPWORDS = {
 
 
 class PlaybookVectorStore:
-    """
-    In-memory Vector Store that chunks internal company playbooks, builds dense
-    hybrid embeddings (TF-IDF unigram/bigram features + domain semantic concept features),
-    and executes cosine-similarity search with exact source attribution.
-    """
-
     def __init__(self) -> None:
         self.chunks: List[PlaybookChunk] = []
         self.vocab: Dict[str, int] = {}
         self.idf: np.ndarray = np.array([])
         self.embeddings: np.ndarray = np.array([])
-        self.indexed_documents: Dict[str, str] = {}  # doc_id -> title
+        self.indexed_documents: Dict[str, str] = {}
 
     @staticmethod
     def _tokenize(text: str) -> List[str]:
@@ -105,14 +96,10 @@ class PlaybookVectorStore:
         activations: List[float] = []
         for _, keywords in sorted(LEGAL_CONCEPT_CLUSTERS.items()):
             hits = sum(1 for kw in keywords if kw in lower_text)
-            # Smooth log-scaled concept weight boosted to anchor semantic similarity
             activations.append(math.log1p(hits) * 2.8)
         return activations
 
     def index_chunks(self, new_chunks: List[PlaybookChunk]) -> int:
-        """
-        Adds playbook chunks to the vector index and recomputes normalized embeddings.
-        """
         existing_ids = {c.chunk_id for c in self.chunks}
         added = 0
         for ch in new_chunks:
@@ -128,10 +115,6 @@ class PlaybookVectorStore:
     def parse_and_index_markdown_playbook(
         self, document_id: str, document_title: str, markdown_text: str
     ) -> int:
-        """
-        Chunks a structured Markdown playbook document into PlaybookChunk records
-        and indexes them in the vector database.
-        """
         sections = re.split(r"(?m)^##\s+", markdown_text)
         parsed_chunks: List[PlaybookChunk] = []
 
@@ -145,7 +128,6 @@ class PlaybookVectorStore:
             if not body_text:
                 continue
 
-            # Parse section_ref and heading from e.g. "§4.1 Limitation of Liability & Super-Caps [Category: Liability]"
             cat_match = re.search(r"\[Category:\s*([^\]]+)\]", header_line, re.IGNORECASE)
             category = cat_match.group(1).strip() if cat_match else "General"
             clean_header = re.sub(r"\[Category:[^\]]+\]", "", header_line).strip()
@@ -208,7 +190,7 @@ class PlaybookVectorStore:
             composite_text = " ".join(
                 [
                     ch.heading,
-                    ch.heading,  # Boost heading weight
+                    ch.heading,
                     ch.category,
                     ch.policy_rule,
                     " ".join(ch.mandatory_requirements),
@@ -269,10 +251,6 @@ class PlaybookVectorStore:
     def search(
         self, query_text: str, top_k: int = 2, min_similarity: float = 0.18
     ) -> List[PlaybookReference]:
-        """
-        Retrieves the top_k most relevant PlaybookReference items above min_similarity
-        using cosine similarity over the hybrid embedding space.
-        """
         if not self.chunks or self.embeddings.size == 0:
             return []
 

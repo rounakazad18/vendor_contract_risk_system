@@ -1,0 +1,591 @@
+/* =============================================================================
+   Contract Risk Review System — Enterprise Stylesheet
+   LexGuard AI · Q2 · Vendor Contract Risk System
+   =============================================================================
+   Table of Contents:
+   1.  Design Tokens (CSS Custom Properties)
+   2.  Base & Body
+   3.  Typography Utilities
+   4.  Card Styles
+   5.  Custom Scrollbar
+   6.  Tab View Transitions
+   7.  Skeleton Loading Animations
+   8.  KPI Value Count-Up
+   9.  Severity Badge Pulse
+   10. Toast Notifications
+   11. Drag-and-Drop Zone
+   12. Diff Viewer
+   13. Pipeline Pill Animation
+   14. Upload Dropzone (Legacy)
+   15. Dark Mode — Tailwind Class Overrides
+   16. Print Styles
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. DESIGN TOKENS — CSS Custom Properties
+   ============================================================================= */
+
+:root {
+  /* Backgrounds */
+  --bg-page:        #F8FAFC;
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #F8FAFC;
+
+  /* Text */
+  --text-primary:   #0F172A;
+  --text-secondary: #64748B;
+  --text-muted:     #94A3B8;
+
+  /* Borders */
+  --border:         #E2E8F0;
+  --border-strong:  #CBD5E1;
+
+  /* Brand Palette */
+  --brand-indigo:   #4F46E5;
+  --brand-emerald:  #059669;
+  --brand-rose:     #E11D48;
+
+  /* Shadows */
+  --shadow-sm:      0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md:      0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg:      0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+
+  /* Radius */
+  --radius-sm:      0.375rem;
+  --radius-md:      0.75rem;
+  --radius-lg:      1rem;
+
+  /* Transitions */
+  --transition-fast:  0.15s ease;
+  --transition-base:  0.2s ease;
+  --transition-slow:  0.3s ease;
+}
+
+/* Dark Mode Tokens */
+[data-theme="dark"] {
+  --bg-page:        #0F172A;
+  --bg-card:        #1E293B;
+  --bg-card-hover:  #273549;
+
+  --text-primary:   #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted:     #64748B;
+
+  --border:         #334155;
+  --border-strong:  #475569;
+
+  --shadow-sm:      0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md:      0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg:      0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =============================================================================
+   2. BASE & BODY
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  /* Smooth dark/light mode switch */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--brand-indigo);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =============================================================================
+   3. TYPOGRAPHY UTILITIES
+   ============================================================================= */
+
+.mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas,
+    'Courier New', monospace;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+
+/* =============================================================================
+   4. CARD STYLES
+   ============================================================================= */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-slow),
+              border-color var(--transition-slow),
+              box-shadow var(--transition-base);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.card-elevated {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+
+/* =============================================================================
+   5. CUSTOM SCROLLBAR
+   ============================================================================= */
+
+/* Webkit (Chrome, Edge, Safari) */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .custom-scroll::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+  transition: background var(--transition-base);
+}
+
+[data-theme="dark"] .custom-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+[data-theme="dark"] .custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 #F1F5F9;
+}
+
+[data-theme="dark"] .custom-scroll {
+  scrollbar-color: var(--border-strong) var(--bg-page);
+}
+
+
+/* =============================================================================
+   6. TAB VIEW TRANSITIONS
+   ============================================================================= */
+
+.tab-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Used for the rAF trick: make visible but transparent, then trigger transition */
+.tab-view.transitioning {
+  display: block;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tab-view.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =============================================================================
+   7. SKELETON LOADING ANIMATIONS
+   ============================================================================= */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--border)         25%,
+    var(--bg-card-hover)  50%,
+    var(--border)         75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-wave {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Convenience height helpers for skeleton blocks */
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+}
+
+.skeleton-heading {
+  height: 1.5em;
+  width: 60%;
+  margin-bottom: 0.75em;
+  border-radius: 4px;
+}
+
+.skeleton-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+
+/* =============================================================================
+   8. KPI VALUE COUNT-UP
+   ============================================================================= */
+
+.kpi-value {
+  transition: all 0.4s ease;
+  display: inline-block;
+}
+
+/* Optional: subtle scale pop when value updates */
+.kpi-value.updating {
+  animation: kpi-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes kpi-pop {
+  from { transform: scale(0.92); opacity: 0.6; }
+  to   { transform: scale(1);    opacity: 1;   }
+}
+
+
+/* =============================================================================
+   9. SEVERITY BADGE PULSE (Critical)
+   ============================================================================= */
+
+.severity-critical-pulse {
+  animation: severity-pulse 2s ease-in-out infinite;
+}
+
+@keyframes severity-pulse {
+  0%,
+  100% { box-shadow: 0 0 0 0   rgba(225, 29, 72, 0.3); }
+  50%  { box-shadow: 0 0 0 4px rgba(225, 29, 72, 0);   }
+}
+
+
+/* =============================================================================
+   10. TOAST NOTIFICATIONS
+   ============================================================================= */
+
+.toast-enter {
+  animation: toast-slide-in 0.3s ease forwards;
+}
+
+.toast-exit {
+  animation: toast-slide-out 0.3s ease forwards;
+}
+
+@keyframes toast-slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes toast-slide-out {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+
+/* =============================================================================
+   11. DRAG-AND-DROP ZONE
+   ============================================================================= */
+
+.drop-zone {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--brand-indigo);
+  background: rgba(79, 70, 229, 0.05);
+  transform: scale(1.01);
+}
+
+/* Legacy alias kept for backwards compatibility */
+.dropzone-active {
+  border-color: #4F46E5 !important;
+  background-color: #EEF2FF !important;
+}
+
+
+/* =============================================================================
+   12. DIFF VIEWER
+   ============================================================================= */
+
+.diff-add {
+  background: rgba(5, 150, 105, 0.12);
+  border-left: 3px solid #059669;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.diff-remove {
+  background: rgba(225, 29, 72, 0.1);
+  text-decoration: line-through;
+  opacity: 0.7;
+  padding: 0 2px;
+  border-radius: 2px;
+  color: #E11D48;
+}
+
+/* Line-level diff (for pre/code blocks) */
+.diff-line-add {
+  background: rgba(5, 150, 105, 0.08);
+  border-left: 3px solid #059669;
+  display: block;
+  padding-left: 0.5rem;
+}
+
+.diff-line-remove {
+  background: rgba(225, 29, 72, 0.08);
+  border-left: 3px solid #E11D48;
+  display: block;
+  padding-left: 0.5rem;
+  opacity: 0.75;
+}
+
+.diff-line-neutral {
+  border-left: 3px solid transparent;
+  display: block;
+  padding-left: 0.5rem;
+}
+
+
+/* =============================================================================
+   13. PIPELINE PILL ANIMATION
+   ============================================================================= */
+
+.pipeline-pill-done {
+  animation: pill-cascade 0.4s ease both;
+}
+
+@keyframes pill-cascade {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+
+/* Stagger helpers (apply animation-delay via inline style or nth-child) */
+.pipeline-pill-done:nth-child(1) { animation-delay: 0.00s; }
+.pipeline-pill-done:nth-child(2) { animation-delay: 0.06s; }
+.pipeline-pill-done:nth-child(3) { animation-delay: 0.12s; }
+.pipeline-pill-done:nth-child(4) { animation-delay: 0.18s; }
+.pipeline-pill-done:nth-child(5) { animation-delay: 0.24s; }
+
+
+/* =============================================================================
+   14. UPLOAD DROPZONE (Legacy — preserved for existing markup)
+   ============================================================================= */
+
+/* .dropzone-active is kept above in §11 for backwards compatibility */
+
+
+/* =============================================================================
+   15. DARK MODE — TAILWIND CLASS OVERRIDES
+       Tailwind CDN does not support data-theme dark mode variants, so we
+       override utility classes manually here.
+   ============================================================================= */
+
+/* Backgrounds */
+[data-theme="dark"] .bg-white    { background-color: var(--bg-card) !important; }
+[data-theme="dark"] .bg-slate-50 { background-color: var(--bg-page) !important; }
+[data-theme="dark"] .bg-slate-100 { background-color: var(--bg-card-hover) !important; }
+[data-theme="dark"] .bg-slate-900 { background-color: #020617 !important; }
+
+/* Text */
+[data-theme="dark"] .text-slate-900 { color: var(--text-primary)   !important; }
+[data-theme="dark"] .text-slate-800 { color: var(--text-primary)   !important; }
+[data-theme="dark"] .text-slate-700 { color: var(--text-secondary) !important; }
+[data-theme="dark"] .text-slate-600 { color: var(--text-secondary) !important; }
+[data-theme="dark"] .text-slate-500 { color: var(--text-muted)     !important; }
+[data-theme="dark"] .text-slate-400 { color: var(--text-muted)     !important; }
+
+/* Borders */
+[data-theme="dark"] .border-slate-200 { border-color: var(--border) !important; }
+[data-theme="dark"] .border-slate-300 { border-color: var(--border) !important; }
+[data-theme="dark"] .border-slate-400 { border-color: var(--border-strong) !important; }
+
+/* Form controls */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--bg-card)    !important;
+  color:            var(--text-primary) !important;
+  border-color:     var(--border)     !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* Table */
+[data-theme="dark"] table thead tr {
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] table tbody tr {
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] table tbody tr:hover {
+  background-color: var(--bg-card-hover) !important;
+}
+
+/* Dividers */
+[data-theme="dark"] .divide-slate-200 > * + * {
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .divide-slate-300 > * + * {
+  border-color: var(--border) !important;
+}
+
+/* Ring / outline utilities */
+[data-theme="dark"] .ring-slate-200 {
+  --tw-ring-color: var(--border) !important;
+}
+
+/* Shadow utilities — darken in dark mode */
+[data-theme="dark"] .shadow-sm  { box-shadow: var(--shadow-sm)  !important; }
+[data-theme="dark"] .shadow-md  { box-shadow: var(--shadow-md)  !important; }
+[data-theme="dark"] .shadow-lg  { box-shadow: var(--shadow-lg)  !important; }
+
+/* Card-like containers */
+[data-theme="dark"] .card,
+[data-theme="dark"] .card-elevated {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+
+/* =============================================================================
+   16. PRINT STYLES
+   ============================================================================= */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Hide interactive chrome */
+  nav,
+  aside,
+  .tab-nav,
+  .toast-container,
+  .drop-zone,
+  .pipeline-pill-done,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* Exclude chart canvases from print (they render blank without JS) */
+  canvas,
+  .chart-container,
+  [data-chart] {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .card,
+  .card-elevated {
+    border: 1px solid #CBD5E1 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #CBD5E1;
+    padding: 4pt 6pt;
+    font-size: 10pt;
+  }
+
+  @page {
+    margin: 1.5cm 2cm;
+  }
+}

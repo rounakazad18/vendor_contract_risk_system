@@ -1,9 +1,6 @@
 """
 CA2 Evaluation Target Module (`evaluate_10_clauses.py`)
 Group 2: Gursirat Singh (12326116) & Rounak Azad (12326217)
-Implements the mandatory CA2 evaluation target:
-"Use 10 contract clauses that the group has labelled low, medium, or high risk.
-Report how often the system agrees with the group's labels."
 """
 
 from __future__ import annotations
@@ -15,8 +12,6 @@ from data.sample_data import populate_default_vector_store
 from negotiation_memory import populate_default_negotiation_memory
 
 
-# 10 Human-Labelled Contract Clauses annotated by Group 2 (Gursirat Singh & Rounak Azad)
-# Labels strictly use the CA2 rubric 3-level taxonomy: "High", "Medium", "Low"
 TEN_LABELLED_CLAUSES_DATASET: List[Dict[str, str]] = [
     {
         "clause_number": "1",
@@ -152,8 +147,8 @@ TEN_LABELLED_CLAUSES_DATASET: List[Dict[str, str]] = [
 class ClauseEvaluationRow:
     clause_number: str
     clause_heading: str
-    group_human_label: str  # "Low", "Medium", or "High"
-    system_3tier_label: str  # "Low", "Medium", or "High"
+    group_human_label: str
+    system_3tier_label: str
     system_5tier_severity: str
     risk_score: int
     playbook_ref: str
@@ -186,13 +181,6 @@ class TenClauseEvaluationSummary:
 
 
 def map_score_to_3tier_label(risk_score: int) -> str:
-    """
-    Maps the RiskScorerAgent's 0–100 score onto the CA2 Evaluation Target's
-    3-tier label taxonomy ('High', 'Medium', 'Low'):
-    - Score >= 60 (Critical / High) -> 'High'
-    - 40 <= Score < 60 (Medium)     -> 'Medium'
-    - Score < 40 (Low / No Risk)    -> 'Low'
-    """
     if risk_score >= 60:
         return "High"
     if risk_score >= 40:

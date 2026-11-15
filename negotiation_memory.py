@@ -1,7 +1,5 @@
 """
 Counterparty Negotiation-History Memory (`negotiation_memory.py`).
-Implements the CA2 Group-of-3 Add-on requirement:
-"Add a negotiation-history memory so that a repeat counterparty receives consistent redlines across contracts."
 """
 
 from __future__ import annotations
@@ -25,12 +23,6 @@ class NegotiationMemoryEntry:
 
 
 class NegotiationHistoryMemory:
-    """
-    Persistent in-memory store indexed by `(normalized_counterparty_name, normalized_category)`
-    and `(normalized_counterparty_name, playbook_section_ref)` so repeat counterparties
-    automatically receive consistent, previously negotiated redline wording across contracts.
-    """
-
     def __init__(self) -> None:
         self._by_section: Dict[Tuple[str, str], NegotiationMemoryEntry] = {}
         self._by_category: Dict[Tuple[str, str], NegotiationMemoryEntry] = {}
@@ -89,10 +81,6 @@ class NegotiationHistoryMemory:
 
 
 def populate_default_negotiation_memory() -> NegotiationHistoryMemory:
-    """
-    Pre-populates negotiation history for repeat counterparty 'ApexCloud Infrastructure Inc.'
-    to demonstrate consistent cross-contract redlining.
-    """
     mem = NegotiationHistoryMemory()
     mem.record_agreed_redline(
         counterparty_name="ApexCloud Infrastructure Inc.",

@@ -1,20 +1,6 @@
 """
-Comprehensive Unit & Integration Test Suite for the
-Multi-Agent Vendor Contract Risk Review System (Group 2: Gursirat Singh — 12326116 & Rounak Azad — 12326217).
-
-Covers all 10 original engineering dimensions PLUS CA2 Q2 Rubric Verification:
-1. Contract text extraction (TXT, DOCX, PDF)
-2. Clause splitting and numbering (including subclauses & unnumbered contracts)
-3. Playbook retrieval accuracy (RAG vector search across multiple playbooks)
-4. Risk scoring consistency (0-100 scale, Critical/High/Medium/Low/No Risk)
-5. Redline generation (playbook grounding, diff operations, rationale)
-6. Agent-to-agent communication (structured schemas)
-7. Shared memory synchronization & deduplication (SharedClauseTable)
-8. Manager orchestration (ReviewManagerAgent async delegation & telemetry)
-9. End-to-end contract analysis & report compilation
-10. Invalid documents and malformed agent responses / missing playbook handling
-11. CA2 Evaluation Target: 10 Human-Labelled Clauses Agreement Benchmark (100% agreement)
-12. Repeat Counterparty Negotiation-History Memory & Semantic Kernel @kernel_function plugins
+Comprehensive Unit & Integration Test Suite (`tests/test_system.py`)
+Group 2: Gursirat Singh (12326116) & Rounak Azad (12326217)
 """
 
 from __future__ import annotations
@@ -306,7 +292,6 @@ class TestVendorContractRiskSystem(unittest.TestCase):
             negotiation_memory=populate_default_negotiation_memory(),
             counterparty_name="ApexCloud Infrastructure Inc.",
         )
-        # Verify @kernel_function tools registered in AgentKernelRegistry
         self.assertGreaterEqual(len(manager.kernel_registry.tool_metadata), 2)
 
         report = asyncio.run(

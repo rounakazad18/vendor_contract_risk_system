@@ -1,0 +1,491 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 3739 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(=========================================================================================) Tj T*
+(Q2: CONTRACT CLAUSE RISK REVIEW SYSTEM ? OFFICIAL REVIEW REPORT \(CO3 & CO4, 30 MARKS\)) Tj T*
+(Group 2 Members: Gursirat Singh \(12326116\) & Rounak Azad \(12326217\)) Tj T*
+(=========================================================================================) Tj T*
+(Contract File : ApexCloud_Enterprise_MSA_2026.pdf) Tj T*
+(Report ID : RPT-EBE54C8F | Generated: 2026-11-15 15:18:08 UTC) Tj T*
+(Composite Score : 77/100 \(High / Critical Exposure\)) Tj T*
+(Approval Status : Approve with Changes) Tj T*
+() Tj T*
+(1. EXECUTIVE SUMMARY) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(Multi-agent analysis of 'C:\\Users\\gursi\\AppData\\Local\\Temp\\tmp80b9zfbi.pdf' evaluated 11) Tj T*
+(clauses against 3 internal company playbooks. A total of 8 clauses were flagged \(3 Critical, 2) Tj T*
+(High, 2 Medium, 1 Low\), yielding a composite contract risk score of 77/100 \(High / Critical) Tj T*
+(Exposure\). Recommendation: Approve with Changes.) Tj T*
+(Total Clauses: 11 | Flagged: 8 \(Critical: 3, High: 2, Medium: 2, Low: 1, No Risk: 3\)) Tj T*
+() Tj T*
+(2. RISK-RANKED CLAUSE ANALYSIS & SUGGESTED PLAYBOOK REDLINES) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 4: Intellectual Property and Work Product Ownership [UPL-004]) Tj T*
+(Risk Score: 98/100 | Severity: Critical | Playbook Ref: POL-LEGAL-2026-v4.2 §3.2 \(Intellectual) Tj T*
+(Property & Work Product Ownership\)) Tj T*
+(Original Wording: 4. Intellectual Property and Work Product Ownership.) Tj T*
+(4.1 Notwithstanding anything to the contrary, all deliverables, custom configurations, software) Tj T*
+(integrations, and work product funded by Customer under any Statement of Work shall belong) Tj T*
+(exclusively to Vendor.) Tj T*
+(4.2 Customer hereby assigns to Vendor all rights in deliverables and acknowledges that all) Tj T*
+(derivative works shall remain the sole property of Vendor, subject only to a revocable, non-) Tj T*
+(exclusive license during the active Term.) Tj T*
+() Tj T*
+(Page 2 of 3 APEX-MSA-2026-089 | Master SaaS and Cloud Services Agreement5. Indemnification) Tj T*
+(Obligations.) Tj T*
+(5.1 Customer shall indemnify, defend, and hold harmless Vendor, its officers, directors, and) Tj T*
+(affiliates solely at Customer's expense against any and all third-party claims, liabilities,) Tj T*
+(and) Tj T*
+(expenses arising out of or relating to this Agreement or Customer's use of the Services.) Tj T*
+(5.2 Vendor disclaims any obligation to indemnify Customer for third-party intellectual property) Tj T*
+(infringement, data security incidents, or regulatory penalties.) Tj T*
+(Risk Assessment : Violates POL-LEGAL-2026-v4.2 §3.2: Assigns ownership of paid custom) Tj T*
+(deliverables and derivative works to Vendor instead of Customer \('Work Made for Hire') Tj T*
+(violation\). One-way indemnification clause requiring Customer to indemnify Vendor while) Tj T*
+(omitting Vendor IP infringement and data breach indemnity. Customer pays for custom development) Tj T*
+(but only receives a revocable, non-transferable license. Shifts all third-party litigation) Tj T*
+(defense costs onto Customer without reciprocal Vendor protection. Missing required protection:) Tj T*
+(Full ownership assignment \('Work Made for Hire'\) of custom deliverables and Customer-specific) Tj T*
+(configurations to Customer.) Tj T*
+(Suggested Redline: 4. Intellectual Property and Work Product Ownership. All custom) Tj T*
+(Deliverables, configurations, work product, and derivative works created specifically for) Tj T*
+ET
+endstream
+endobj
+3 0 obj
+<< /Length 4212 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(Customer under an Order Form shall be deemed "Work Made for Hire" and owned exclusively by) Tj T*
+(Customer, and Vendor hereby irrevocably assigns all right, title, and interest therein to) Tj T*
+(Customer. Vendor retains ownership of its pre-existing Background IP and grants Customer a) Tj T*
+(perpetual, irrevocable, worldwide, royalty-free, transferable license to use, modify, and) Tj T*
+(exploit any Background IP incorporated into the Deliverables.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-LEGAL-2026-v4.2 §3.2\).] Grounded) Tj T*
+(in POL-LEGAL-2026-v4.2 §3.2 \(Enterprise Procurement & Master Services Legal Playbook ?) Tj T*
+(Intellectual Property & Work Product Ownership\). Eliminates policy violation: Assigns ownership) Tj T*
+(of paid custom deliverables and derivative works to Vendor instead of Customer \('Work Made for) Tj T*
+(Hire' violation\). Inserts mandatory protection: Full ownership assignment \('Work Made for) Tj T*
+(Hire'\) of custom deliverables and Customer-specific configurations to Customer. Negotiation) Tj T*
+(Fallback Position: If Vendor insists on owning generic connectors, Customer must receive an) Tj T*
+(exclusive license within its industry vertical for 36 months and a perpetual, irrevocable,) Tj T*
+(royalty-free enterprise license thereafter.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 8: Data Privacy, Security Incident Notification and AI Training [UPL-007]) Tj T*
+(Risk Score: 96/100 | Severity: Critical | Playbook Ref: POL-SEC-2026-v3.1 §2.3 \(Security) Tj T*
+(Incident Notification & AI Model Training Prohibition\)) Tj T*
+(Original Wording: 8. Data Privacy, Security Incident Notification and AI Training.) Tj T*
+(8.1 In the event of a confirmed data breach involving Customer Personal Data, Vendor shall) Tj T*
+(notify) Tj T*
+(Customer within ten \(10\) business days after confirming the root cause of the incident in its) Tj T*
+(sole) Tj T*
+(discretion.) Tj T*
+(8.2 Customer hereby grants Vendor a perpetual, irrevocable, worldwide, royalty-free license to) Tj T*
+(use) Tj T*
+(Customer Data, user prompts, and platform outputs to train its artificial intelligence and) Tj T*
+(machine) Tj T*
+(learning foundation models for commercial distribution to third parties.) Tj T*
+(Risk Assessment : Violates POL-SEC-2026-v3.1 §2.3: Security incident notification window) Tj T*
+(exceeds the strict 24-hour \(or 48-hour outer regulatory\) playbook mandate. Express violation of) Tj T*
+(Company AI Governance Policy prohibiting Vendor from training or fine-tuning AI/ML models on) Tj T*
+(Customer Data. Delays breach reporting up to 10 business days, jeopardizing GDPR/CCPA/CERT-In) Tj T*
+(72-hour regulatory reporting timelines. Missing required protection: Explicit prohibition) Tj T*
+(against using Customer Data, prompts, or outputs to train shared or third-party AI/ML models.) Tj T*
+(Suggested Redline: 8. Data Privacy, Security Incident Notification and AI Training. Vendor) Tj T*
+(shall notify Customer in writing within twenty-four \(24\) hours of discovering any actual or) Tj T*
+(reasonably suspected Security Incident affecting Customer Data and shall promptly cooperate at) Tj T*
+(Vendor's expense in investigation, mitigation, and regulatory reporting. Customer retains all) Tj T*
+(right, title, and interest in Customer Data; Vendor is strictly prohibited from using Customer) Tj T*
+(Data, inputs, or outputs to train, fine-tune, or validate any artificial intelligence, machine) Tj T*
+(learning, or foundation model.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: APEX-DPA-2025-019 for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Repeat Counterparty Precedent \(ApexCloud 2025 DPA\): 24-hour breach) Tj T*
+(notification & absolute ban on AI model training.] Grounded in POL-SEC-2026-v3.1 §2.3 \(Global) Tj T*
+(Data Privacy, AI Governance & InfoSec Addendum Playbook ? Security Incident Notification & AI) Tj T*
+(Model Training Prohibition\). Eliminates policy violation: Security incident notification window) Tj T*
+ET
+endstream
+endobj
+4 0 obj
+<< /Length 4080 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(exceeds the strict 24-hour \(or 48-hour outer regulatory\) playbook mandate. Inserts mandatory) Tj T*
+(protection: Explicit prohibition against using Customer Data, prompts, or outputs to train) Tj T*
+(shared or third-party AI/ML models. Negotiation Fallback Position: Accept a maximum 36-hour \(or) Tj T*
+(48-hour outer limit\) breach notification window, but the prohibition on training shared AI/ML) Tj T*
+(models on Customer Data is non-negotiable.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 6: Limitation of Liability and Consequential Damages [UPL-005]) Tj T*
+(Risk Score: 95/100 | Severity: Critical | Playbook Ref: POL-LEGAL-2026-v4.2 §4.1 \(Limitation of) Tj T*
+(Liability & Super-Caps\)) Tj T*
+(Original Wording: 6. Limitation of Liability and Consequential Damages.) Tj T*
+(6.1 IN NO EVENT SHALL VENDOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE,) Tj T*
+(OR CONSEQUENTIAL DAMAGES. Customer waives all claims for consequential damages while) Tj T*
+(Customer's liability to Vendor remains uncapped.) Tj T*
+(6.2 Vendor's maximum aggregate liability for all claims arising under or related to this) Tj T*
+(Agreement) Tj T*
+(\(including data breaches and IP claims\) shall in no event exceed the fees paid in the one \(1\)) Tj T*
+(month) Tj T*
+(immediately preceding the event giving rise to liability, and explicitly excludes data breach) Tj T*
+(from) Tj T*
+(cap carve-outs.) Tj T*
+(Risk Assessment : Violates POL-LEGAL-2026-v4.2 §4.1: Vendor liability cap is severely below the) Tj T*
+(mandatory 12-month fees floor \(2x/24-month super-cap for data/IP\). One-sided consequential) Tj T*
+(damages waiver or exclusion of super-cap carve-outs \(data breach, confidentiality, IP) Tj T*
+(indemnity\). Caps Vendor aggregate liability at 1?3 months of fees while exposing Customer to) Tj T*
+(disproportionate loss. Missing required protection: Mutual consequential damages waiver and) Tj T*
+(mandatory super-cap carve-outs for IP infringement, confidentiality, and data security) Tj T*
+(breaches.) Tj T*
+(Suggested Redline: 6. Limitation of Liability and Consequential Damages. NEITHER PARTY SHALL BE) Tj T*
+(LIABLE FOR INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, AND EACH PARTY'S AGGREGATE LIABILITY) Tj T*
+(SHALL NOT EXCEED THE TOTAL FEES PAID OR PAYABLE IN THE TWELVE \(12\) MONTHS PRECEDING THE CLAIM;) Tj T*
+(PROVIDED THAT SUCH LIMITATIONS SHALL NOT APPLY TO \(A\) INDEMNIFICATION OBLIGATIONS, \(B\) BREACHES) Tj T*
+(OF CONFIDENTIALITY OR DATA SECURITY OBLIGATIONS \(WHICH SHALL BE SUBJECT TO A SUPER-CAP EQUAL TO) Tj T*
+(THREE TIMES \(3X\) ANNUAL FEES OR $3,000,000, WHICHEVER IS GREATER\), OR \(C\) GROSS NEGLIGENCE OR) Tj T*
+(WILLFUL MISCONDUCT.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: APEX-MSA-2025-014 for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Repeat Counterparty Precedent \(ApexCloud 2025 Master Addendum\): Mutual) Tj T*
+(12-month cap + 3x/$3M Data/Confidentiality Super-Cap.] Grounded in POL-LEGAL-2026-v4.2 §4.1) Tj T*
+(\(Enterprise Procurement & Master Services Legal Playbook ? Limitation of Liability &) Tj T*
+(Super-Caps\). Eliminates policy violation: Vendor liability cap is severely below the mandatory) Tj T*
+(12-month fees floor \(2x/24-month super-cap for data/IP\). Inserts mandatory protection: Mutual) Tj T*
+(consequential damages waiver and mandatory super-cap carve-outs for IP infringement,) Tj T*
+(confidentiality, and data security breaches. Negotiation Fallback Position: Accept a 24-month) Tj T*
+(\(2x\) or $5,000,000 Super-Cap \(whichever is greater\) for data security incidents and) Tj T*
+(confidentiality breaches, provided third-party IP indemnification remains uncapped.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 2: Term, Auto-Renewal and Termination Rights [UPL-002]) Tj T*
+(Risk Score: 74/100 | Severity: High | Playbook Ref: POL-FIN-2026-v2.0 §1.4 \(Term, Renewal) Tj T*
+(Notice & Termination for Convenience\)) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Length 4118 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(Original Wording: 2. Term, Auto-Renewal and Termination Rights.) Tj T*
+(2.1 This Agreement shall commence on the Effective Date and continue for an Initial Term of) Tj T*
+(twenty-four \(24\) months. Thereafter, this Agreement shall automatically renew for successive) Tj T*
+(thirty-six \(36\) month periods unless Customer provides written notice of non-renewal at least) Tj T*
+(120) Tj T*
+(days prior to the expiration of the then-current term.) Tj T*
+(2.2 All Order Forms are strictly non-cancellable, all fees are non-refundable, and Customer) Tj T*
+(shall) Tj T*
+(have no right to terminate for convenience under any circumstances.) Tj T*
+(Risk Assessment : Violates POL-FIN-2026-v2.0 §1.4: Multi-year \(36-month\) evergreen auto-renewal) Tj T*
+(with excessive 120-day notice window and ban on termination for convenience. Locks Customer) Tj T*
+(into a 3-year renewal cycle with no early exit or pro-rata refund mechanism. Missing required) Tj T*
+(protection: Right to terminate for convenience upon 30 days' prior written notice with pro-rata) Tj T*
+(refund of prepaid unearned fees.) Tj T*
+(Suggested Redline: 2. Term, Auto-Renewal and Termination Rights. Following the Initial Term,) Tj T*
+(this Agreement may renew for successive twelve \(12\) month Renewal Terms unless either Party) Tj T*
+(provides written notice of non-renewal at least thirty \(30\) days prior to the end of the) Tj T*
+(then-current Term. Customer may terminate this Agreement or any Order Form for convenience at) Tj T*
+(any time upon thirty \(30\) days' prior written notice and shall receive a pro-rata refund of all) Tj T*
+(prepaid, unearned fees within thirty \(30\) days of termination.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-FIN-2026-v2.0 §1.4\).] Grounded in) Tj T*
+(POL-FIN-2026-v2.0 §1.4 \(Commercial Terms, Renewal & Payment Governance Playbook ? Term, Renewal) Tj T*
+(Notice & Termination for Convenience\). Eliminates policy violation: Multi-year \(36-month\)) Tj T*
+(evergreen auto-renewal with excessive 120-day notice window and ban on termination for) Tj T*
+(convenience. Inserts mandatory protection: Right to terminate for convenience upon 30 days') Tj T*
+(prior written notice with pro-rata refund of prepaid unearned fees. Negotiation Fallback) Tj T*
+(Position: 12-month auto-renewal with 45 days' non-renewal notice, and termination for) Tj T*
+(convenience upon 60 days' written notice.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 3: Fees, Invoicing, Payment Terms and Price Escalation [UPL-003]) Tj T*
+(Risk Score: 72/100 | Severity: High | Playbook Ref: POL-FIN-2026-v2.0 §2.1 \(Payment Terms,) Tj T*
+(Disputed Invoices & Escalation Caps\)) Tj T*
+(Original Wording: 3. Fees, Invoicing, Payment Terms and Price Escalation.) Tj T*
+(3.1 All fees are due and payable Net 15 \(within fifteen \(15\) days of invoice date\) without) Tj T*
+(right of set-) Tj T*
+(off or deduction. Overdue balances shall accrue compound interest at the rate of 2.5% per month) Tj T*
+(\(30% per annum\), and Vendor may immediately suspend Services if any invoice remains unpaid for) Tj T*
+(five \(5\) days.) Tj T*
+(3.2 Vendor reserves the right to increase fees at any time in its sole discretion upon fifteen) Tj T*
+(\(15\)) Tj T*
+(days' notice, and renewal terms shall be subject to uncapped annual price adjustments.) Tj T*
+(Risk Assessment : Violates POL-FIN-2026-v2.0 §2.1: Violates Net-45 minimum payment standard,) Tj T*
+(imposes punitive 2.5%/month late fees, and allows uncapped unilateral price hikes. Short 15-day) Tj T*
+(invoice payment cycle coupled with 30% annualized late interest and uncapped fee escalation.) Tj T*
+(Missing required protection: Net-45 payment window, right to withhold disputed invoices in good) Tj T*
+(faith, and annual renewal price increase cap \(lesser of CPI or 3%\).) Tj T*
+(Suggested Redline: 3. Fees, Invoicing, Payment Terms and Price Escalation. Customer shall pay) Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Length 4242 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(all undisputed invoice amounts within forty-five \(45\) days of receiving an accurate invoice) Tj T*
+(\("Net-45"\). Customer may withhold any amounts disputed in good faith without penalty or) Tj T*
+(suspension of Services. Late interest on undisputed past-due amounts shall not exceed 0.5% per) Tj T*
+(month, and renewal fees shall not increase by more than the lesser of three percent \(3%\) or the) Tj T*
+(twelve-month CPI-U change over the immediately preceding Term.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-FIN-2026-v2.0 §2.1\).] Grounded in) Tj T*
+(POL-FIN-2026-v2.0 §2.1 \(Commercial Terms, Renewal & Payment Governance Playbook ? Payment) Tj T*
+(Terms, Disputed Invoices & Escalation Caps\). Eliminates policy violation: Violates Net-45) Tj T*
+(minimum payment standard, imposes punitive 2.5%/month late fees, and allows uncapped unilateral) Tj T*
+(price hikes. Inserts mandatory protection: Net-45 payment window, right to withhold disputed) Tj T*
+(invoices in good faith, and annual renewal price increase cap \(lesser of CPI or 3%\).) Tj T*
+(Negotiation Fallback Position: Net-30 payment terms and a 5% annual renewal fee increase cap) Tj T*
+(after the Initial Term.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 11: Governing Law, Venue and Dispute Resolution [UPL-010]) Tj T*
+(Risk Score: 52/100 | Severity: Medium | Playbook Ref: POL-LEGAL-2026-v4.2 §8.1 \(Governing Law,) Tj T*
+(Venue & Dispute Resolution\)) Tj T*
+(Original Wording: 11. Governing Law, Venue and Dispute Resolution.) Tj T*
+(11.1 This Agreement shall be governed by and construed in accordance with the laws of the) Tj T*
+(Cayman Islands. Any dispute shall be resolved exclusively by binding arbitration in George) Tj T*
+(Town,) Tj T*
+(Grand Cayman before a single arbitrator appointed by Vendor.) Tj T*
+(11.2 Customer shall bear all costs and attorneys' fees incurred by both parties in connection) Tj T*
+(with) Tj T*
+(any dispute or arbitration proceeding, regardless of outcome.) Tj T*
+(Risk Assessment : Violates POL-LEGAL-2026-v4.2 §8.1: Designates unapproved offshore) Tj T*
+(jurisdiction \(Cayman Islands\) and one-way fee shifting requiring Customer to pay Vendor's legal) Tj T*
+(costs. Missing required protection: Approved governing law \(State of Delaware or State of New) Tj T*
+(York\) and prevailing-party or mutual bear-own-costs fee allocation.) Tj T*
+(Suggested Redline: 11. Governing Law, Venue and Dispute Resolution. This Agreement and any) Tj T*
+(dispute arising hereunder shall be governed by and construed in accordance with the laws of the) Tj T*
+(State of Delaware, without giving effect to any choice or conflict of law provision. Any legal) Tj T*
+(suit, action, or proceeding shall be instituted exclusively in the federal or state courts) Tj T*
+(located in New Castle County, Delaware, and the prevailing Party in any final judgment shall be) Tj T*
+(entitled to recover its reasonable attorneys' fees and court costs.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-LEGAL-2026-v4.2 §8.1\).] Grounded) Tj T*
+(in POL-LEGAL-2026-v4.2 §8.1 \(Enterprise Procurement & Master Services Legal Playbook ?) Tj T*
+(Governing Law, Venue & Dispute Resolution\). Eliminates policy violation: Designates unapproved) Tj T*
+(offshore jurisdiction \(Cayman Islands\) and one-way fee shifting requiring Customer to pay) Tj T*
+(Vendor's legal costs. Inserts mandatory protection: Approved governing law \(State of Delaware) Tj T*
+(or State of New York\) and prevailing-party or mutual bear-own-costs fee allocation. Negotiation) Tj T*
+(Fallback Position: Neutral AAA commercial arbitration in New York, NY or San Francisco, CA) Tj T*
+(before three neutral arbitrators, with prevailing party entitled to recover reasonable) Tj T*
+(attorneys' fees.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 9: Audit Rights and Regulatory Compliance [UPL-008]) Tj T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Length 4060 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(Risk Score: 46/100 | Severity: Medium | Playbook Ref: POL-SEC-2026-v3.1 §5.2 \(SOC 2 Type II) Tj T*
+(Certifications & Customer Audit Rights\)) Tj T*
+(Original Wording: 9. Audit Rights and Regulatory Compliance.) Tj T*
+(9.1 Customer's sole and exclusive right to verify Vendor's security posture shall be limited to) Tj T*
+(receiving a one-page internal self-attestation letter from Vendor once every twenty-four \(24\)) Tj T*
+(months.) Tj T*
+(9.2 Customer and its regulators are strictly prohibited from conducting any on-site or) Tj T*
+(third-party) Tj T*
+(security audit or requesting SOC 2 Type II reports.) Tj T*
+(Risk Assessment : Violates POL-SEC-2026-v3.1 §5.2: Replaces annual SOC 2 Type II / ISO 27001) Tj T*
+(certification delivery and customer audit rights with a biennial Vendor self-attestation.) Tj T*
+(Missing required protection: Annual SOC 2 Type II report delivery and right to audit upon 15) Tj T*
+(business days' notice \(or immediately following a security incident\).) Tj T*
+(Suggested Redline: 9. Audit Rights and Regulatory Compliance. Vendor shall annually furnish) Tj T*
+(Customer with a current independent SOC 2 Type II audit report, ISO 27001 certificate, and) Tj T*
+(third-party penetration test summary. Upon fifteen \(15\) business days' prior written notice \(or) Tj T*
+(immediately following a Security Incident or regulatory directive\), Customer or its independent) Tj T*
+(accredited auditor may inspect and audit Vendor's security systems, facilities, and compliance) Tj T*
+(documentation.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-SEC-2026-v3.1 §5.2\).] Grounded in) Tj T*
+(POL-SEC-2026-v3.1 §5.2 \(Global Data Privacy, AI Governance & InfoSec Addendum Playbook ? SOC 2) Tj T*
+(Type II Certifications & Customer Audit Rights\). Eliminates policy violation: Replaces annual) Tj T*
+(SOC 2 Type II / ISO 27001 certification delivery and customer audit rights with a biennial) Tj T*
+(Vendor self-attestation. Inserts mandatory protection: Annual SOC 2 Type II report delivery and) Tj T*
+(right to audit upon 15 business days' notice \(or immediately following a security incident\).) Tj T*
+(Negotiation Fallback Position: Review of annual SOC 2 Type II report and penetration test) Tj T*
+(summary satisfies the routine annual audit, preserving on-site/remote audit rights for) Tj T*
+(regulatory inquiries or confirmed security incidents.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 10: Subcontracting and Fourth-Party Affiliates [UPL-009]) Tj T*
+(Risk Score: 28/100 | Severity: Low | Playbook Ref: POL-SEC-2026-v3.1 §4.1 \(Subcontracting &) Tj T*
+(Fourth-Party Subprocessors\)) Tj T*
+(Original Wording: 10. Subcontracting and Fourth-Party Affiliates.) Tj T*
+(10.1 Vendor may freely delegate its obligations and engage any third-party subcontractors or) Tj T*
+(subprocessors to process Customer Confidential Data without prior notice or consent of) Tj T*
+(Customer,) Tj T*
+() Tj T*
+(Page 3 of 3 APEX-MSA-2026-089 | Master SaaS and Cloud Services Agreementand Vendor shall not be) Tj T*
+(liable for independent subprocessor failures.) Tj T*
+(Risk Assessment : Violates POL-SEC-2026-v3.1 §4.1: Permits unrestricted onboarding of) Tj T*
+(fourth-party data subprocessors without prior written notice or Customer right to object.) Tj T*
+(Missing required protection: 30-day advance written notice of new subprocessors, Customer) Tj T*
+(objection window, and written flow-down of equivalent security obligations.) Tj T*
+(Suggested Redline: 10. Subcontracting and Fourth-Party Affiliates. Vendor shall provide) Tj T*
+(Customer at least thirty \(30\) days' prior written notice before authorizing any new) Tj T*
+(Subprocessor to process Customer Data, allowing Customer to object on reasonable privacy or) Tj T*
+(security grounds. Vendor shall impose written data protection and confidentiality obligations) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Length 3790 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(on all Subprocessors no less protective than this Agreement and shall remain fully liable for) Tj T*
+(all acts and omissions of its Subprocessors.) Tj T*
+(Redline Rationale: [Repeat Counterparty Memory Match: ACTIVE-SESSION for 'ApexCloud) Tj T*
+(Infrastructure Inc.' ? Auto-recorded from active review \(POL-SEC-2026-v3.1 §4.1\).] Grounded in) Tj T*
+(POL-SEC-2026-v3.1 §4.1 \(Global Data Privacy, AI Governance & InfoSec Addendum Playbook ?) Tj T*
+(Subcontracting & Fourth-Party Subprocessors\). Eliminates policy violation: Permits unrestricted) Tj T*
+(onboarding of fourth-party data subprocessors without prior written notice or Customer right to) Tj T*
+(object. Inserts mandatory protection: 30-day advance written notice of new subprocessors,) Tj T*
+(Customer objection window, and written flow-down of equivalent security obligations.) Tj T*
+(Negotiation Fallback Position: 15 business days' prior notice via an automated subprocessor) Tj T*
+(subscription registry with a 15-day Customer objection window.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 7: Confidentiality and Non-Disclosure [UPL-006]) Tj T*
+(Risk Score: 10/100 | Severity: No Risk | Playbook Ref: POL-LEGAL-2026-v4.2 §6.1) Tj T*
+(\(Confidentiality & Non-Disclosure Standards\)) Tj T*
+(Original Wording: 7. Confidentiality and Non-Disclosure.) Tj T*
+(7.1 Each Party agrees to hold the other Party's Confidential Information in strict confidence) Tj T*
+(using at) Tj T*
+(least the same degree of care it uses to protect its own confidential information of like) Tj T*
+(importance,) Tj T*
+(and in no event less than a reasonable standard of care.) Tj T*
+(7.2 Upon termination or expiration of this Agreement, each Receiving Party shall promptly) Tj T*
+(return or) Tj T*
+(certify the destruction of all Disclosing Party Confidential Information within thirty \(30\)) Tj T*
+(days.) Tj T*
+(Risk Assessment : Clause aligns with company playbook requirements \(POL-LEGAL-2026-v4.2 §6.1\).) Tj T*
+(Mutual obligations, standard definitions, and protective carve-outs are properly preserved.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(CLAUSE 12: Force Majeure and Business Continuity [UPL-011]) Tj T*
+(Risk Score: 8/100 | Severity: No Risk | Playbook Ref: POL-LEGAL-2026-v4.2 §9.1 \(Force Majeure &) Tj T*
+(Business Continuity\)) Tj T*
+(Original Wording: 12. Force Majeure and Business Continuity.) Tj T*
+(12.1 Neither Party shall be liable for failure or delay in performance caused by a Force) Tj T*
+(Majeure) Tj T*
+(event beyond its reasonable control, provided the affected Party provides prompt written notice) Tj T*
+(and activates its Business Continuity and Disaster Recovery Plan within 24 hours.) Tj T*
+(12.2 If a Force Majeure event prevents Vendor from performing for more than fifteen \(15\)) Tj T*
+(consecutive calendar days, Customer may terminate the affected Order Form immediately upon) Tj T*
+(written notice and receive a full pro-rata refund of prepaid unearned fees.) Tj T*
+(VENDOR: APEXCLOUD INFRASTRUCTURE INC.CUSTOMER: ENTERPRISE CUSTOMER CORP.) Tj T*
+(Authorized Signature: ___________________________) Tj T*
+(Title: Chief Legal & Commercial Officer) Tj T*
+(Date: ___________________________Authorized Signature: ___________________________) Tj T*
+(Title: VP of Procurement & Legal Affairs) Tj T*
+(Date: ___________________________) Tj T*
+(Risk Assessment : Clause aligns with company playbook requirements \(POL-LEGAL-2026-v4.2 §9.1\).) Tj T*
+(Mutual obligations, standard definitions, and protective carve-outs are properly preserved.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+ET
+endstream
+endobj
+9 0 obj
+<< /Length 3086 >>
+stream
+BT /F1 10 Tf 50 750 Td 14 TL
+(CLAUSE 1: Scope of Services and Affiliates [UPL-001]) Tj T*
+(Risk Score: 5/100 | Severity: No Risk | Playbook Ref: POL-LEGAL-2026-v4.2 §1.1 \(Scope of) Tj T*
+(Services & Affiliate Access\)) Tj T*
+(Original Wording: 1. Scope of Services and Affiliates.) Tj T*
+(1.1 Vendor shall provide the cloud hosting, analytics platform, and support services described) Tj T*
+(in) Tj T*
+(each mutually executed Order Form in accordance with a 99.95% monthly uptime Service Level) Tj T*
+(Agreement.) Tj T*
+(1.2 Customer's majority-owned Affiliates are expressly authorized to access and use the) Tj T*
+(Services) Tj T*
+(under the terms of this Agreement without additional platform access fees.) Tj T*
+(Risk Assessment : Clause aligns with company playbook requirements \(POL-LEGAL-2026-v4.2 §1.1\).) Tj T*
+(Mutual obligations, standard definitions, and protective carve-outs are properly preserved.) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+() Tj T*
+(3. FINAL APPROVAL RECOMMENDATION & NEGOTIATION PRIORITIES) Tj T*
+(-----------------------------------------------------------------------------------------) Tj T*
+(Recommendation: Approve with Changes ? Contract contains 3 Critical and 2 High-risk clauses) Tj T*
+(that violate mandatory internal playbook rules. Execution is contingent upon Vendor accepting) Tj T*
+(the proposed redlines on Critical and High severity provisions.) Tj T*
+(* Priority 1 [Clause 4 ? Intellectual Property and Work Product Ownership]: Replace vendor) Tj T*
+(language per POL-LEGAL-2026-v4.2 §3.2. Fallback: If Vendor insists on owning generic) Tj T*
+(connectors, Customer must receive an exclusive license within its industry vertical for 36) Tj T*
+(months and a perpetual, irrevocable, royalty-free enterprise license thereafter.) Tj T*
+(* Priority 2 [Clause 8 ? Data Privacy, Security Incident Notification and AI Training]: Replace) Tj T*
+(vendor language per POL-SEC-2026-v3.1 §2.3. Fallback: Accept a maximum 36-hour \(or 48-hour) Tj T*
+(outer limit\) breach notification window, but the prohibition on training shared AI/ML models on) Tj T*
+(Customer Data is non-negotiable.) Tj T*
+(* Priority 3 [Clause 6 ? Limitation of Liability and Consequential Damages]: Replace vendor) Tj T*
+(language per POL-LEGAL-2026-v4.2 §4.1. Fallback: Accept a 24-month \(2x\) or $5,000,000 Super-Cap) Tj T*
+(\(whichever is greater\) for data security incidents and confidentiality breaches, provided) Tj T*
+(third-party IP indemnification remains uncapped.) Tj T*
+(* Priority 4 [Clause 2 ? Term, Auto-Renewal and Termination Rights]: Replace vendor language) Tj T*
+(per POL-FIN-2026-v2.0 §1.4. Fallback: 12-month auto-renewal with 45 days' non-renewal notice,) Tj T*
+(and termination for convenience upon 60 days' written notice.) Tj T*
+(* Priority 5 [Clause 3 ? Fees, Invoicing, Payment Terms and Price Escalation]: Replace vendor) Tj T*
+(language per POL-FIN-2026-v2.0 §2.1. Fallback: Net-30 payment terms and a 5% annual renewal fee) Tj T*
+(increase cap after the Initial Term.) Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+11 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 3 0 R >>
+endobj
+12 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 4 0 R >>
+endobj
+13 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 5 0 R >>
+endobj
+14 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 6 0 R >>
+endobj
+15 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 7 0 R >>
+endobj
+16 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 8 0 R >>
+endobj
+17 0 obj
+<< /Type /Page /Parent 18 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R >> >> /Contents 9 0 R >>
+endobj
+18 0 obj
+<< /Type /Pages /Kids [10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R] /Count 8 >>
+endobj
+19 0 obj
+<< /Type /Catalog /Pages 18 0 R >>
+endobj
+xref
+0 20
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000003870 00000 n 
+0000008134 00000 n 
+0000012266 00000 n 
+0000016436 00000 n 
+0000020730 00000 n 
+0000024842 00000 n 
+0000028684 00000 n 
+0000031822 00000 n 
+0000031950 00000 n 
+0000032078 00000 n 
+0000032206 00000 n 
+0000032334 00000 n 
+0000032462 00000 n 
+0000032590 00000 n 
+0000032718 00000 n 
+0000032846 00000 n 
+0000032954 00000 n 
+trailer
+<< /Size 20 /Root 19 0 R >>
+startxref
+33005
+%%EOF
