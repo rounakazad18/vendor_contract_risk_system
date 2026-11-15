@@ -1,0 +1,7 @@
+VENDOR SERVICES AGREEMENT DRAFT (UNNUMBERED)
+
+Payment Terms: All invoices must be paid within fifteen (15) days (Net 15) and late balances carry 2.5% per month interest. Vendor may increase fees at any time in its sole discretion without cap.
+
+Data & AI Policy: Vendor will report security incidents within ten (10) business days after internal review and may use Customer Data to train its artificial intelligence and machine learning models.
+
+Liability Limitation: In no event shall Vendor be liable for any indirect damages, and Vendor's total liability shall not exceed one (1) month of fees paid prior to the claim.
